@@ -1,0 +1,168 @@
+#class prompt kill;
+#class prompt open;
+
+#highlight {{H:|HP:}}{<fac>};
+#highlight {{S:|SP:}}{<adf>};
+#highlight {{E:|EP:}}{<afa>};
+
+
+#action {^Hp: %1/%2 Sp: %3/%4 Ep: %5/%6 Gold: %7 Exp: %8 >$}
+{
+    #local _mana {};
+    #local _health {};
+    #local _endurance {};
+
+    #var {my[hp][current]} {%1};
+    #var {my[hp][max]} {%2};
+    #var {my[sp][current]} {%3};
+    #var {my[sp][max]} {%4};
+    #var {my[ep][current]} {%5};
+    #var {my[ep][max]} {%6};
+    #var {my[gold][carried]} {%7};
+    #var {my[xp]} {%8};
+
+    #var {my[hp][graph]} {@graph{%1;%2}};
+    #var {my[sp][graph]} {@graph{%3;%4}};
+    #var {my[ep][graph]} {@graph{%5;%6}};
+
+    #if {$PROMPT[is_enabled] == 1}
+    {
+
+        #format {hp}		{%+4s} {@colscale{$my[hp][current];$my[hp][max]}};
+        #format {hp_max}	{%+4s} {<128>$my[hp][max]<088>};
+        #format {sp}		{%+4s} {@colscale{$my[sp][current];$my[sp][max]}};
+        #format {sp_max}	{%+4s} {<128>$my[sp][max]<088>};
+        #format {ep}		{%+4s} {@colscale{$my[ep][current];$my[ep][max]}};
+        #format {ep_max}	{%+4s} {<128>$my[ep][max]<088>};
+        #showme {H:$my[hp][graph] S:$my[sp][graph] E:$my[ep][graph]}{$SCREEN[prompt][first_row]}{$SCREEN[prompt][first_col]};
+        #showme {HP:$hp/$hp_max SP:$sp/$sp_max EP:$ep/$ep_max}{$SCREEN[prompt][second_row]}{$SCREEN[prompt][first_col]};
+        #UNVARIABLE {hp};
+        #UNVARIABLE {hp_max};
+        #UNVARIABLE {sp};
+        #UNVARIABLE {sp_max};
+        #UNVARIABLE {ep};
+        #UNVARIABLE {ep_max};
+
+
+    };
+    #else
+    {
+        #showme {H:$my[hp][graph] S:$my[sp][graph] E:$my[ep][graph]}{0}{1};
+    };
+};
+
+#action {^Hp: %1/%2 Sp: %3/%4 Ep: %5/%6$}
+{
+    #local _mana {};
+    #local _health {};
+    #local _endurance {};
+
+    #var {my[hp][current]} {%1};
+    #var {my[hp][max]} {%2};
+    #var {my[sp][current]} {%3};
+    #var {my[sp][max]} {%4};
+    #var {my[ep][current]} {%5};
+    #var {my[ep][max]} {%6};
+
+    #var {my[hp][graph]} {@graph{%1;%2}};
+    #var {my[sp][graph]} {@graph{%3;%4}};
+    #var {my[ep][graph]} {@graph{%5;%6}};
+
+    #if {$PROMPT[is_enabled] == 1}
+    {
+
+        #format {hp}		{%+4s} {@colscale{$my[hp][current];$my[hp][max]}};
+        #format {hp_max}	{%+4s} {<128>$my[hp][max]<088>};
+        #format {sp}		{%+4s} {@colscale{$my[sp][current];$my[sp][max]}};
+        #format {sp_max}	{%+4s} {<128>$my[sp][max]<088>};
+        #format {ep}		{%+4s} {@colscale{$my[ep][current];$my[ep][max]}};
+        #format {ep_max}	{%+4s} {<128>$my[ep][max]<088>};
+        #showme {H:$my[hp][graph] S:$my[sp][graph] E:$my[ep][graph]}{$SCREEN[prompt][first_row]}{$SCREEN[prompt][first_col]};
+        #showme {HP:$hp/$hp_max SP:$sp/$sp_max EP:$ep/$ep_max}{$SCREEN[prompt][second_row]}{$SCREEN[prompt][first_col]};
+        #UNVARIABLE {hp};
+        #UNVARIABLE {hp_max};
+        #UNVARIABLE {sp};
+        #UNVARIABLE {sp_max};
+        #UNVARIABLE {ep};
+        #UNVARIABLE {ep_max};
+
+    };
+    #else
+    {
+        #showme {H:$my[hp][graph] S:$my[sp][graph] E:$my[ep][graph]}{0}{1};
+    };
+};
+
+@PUBSUB_SUBSCRIBE{screen_changed;};
+
+#function {graph}
+{
+	#regex {%1} {%d} {
+		#math per {100.0*%1/%2};
+		#format {per} {%d} {$per};
+		#if {$per > 100} {#var graph {<006>   $per%%   <088>}};
+		#if {$per == 100} {#var graph {<008><AFB>   $per%%   <088>}};
+		#if {$per < 100} {#var graph {<008><BFB>    $per%%  <088> }};
+		#if {$per < 90}	{#var graph {<008><CFB>    $per%% <070>  <088>}};
+		#if {$per < 80} {#var graph {<008><DFB>    $per%%<070>   <088>}};
+		#if {$per < 70} {#var graph {<008><EFB>    $per<070>%%   <088>}};
+		#if {$per < 60} {
+			#format {per_1} {%.1s} {$per};
+			#format {per_2} {%r} {$per};
+			#format {per_2} {%.1s} {$per_2};
+			#var graph {<008><FFB>    ${per_1}<070>${per_2}%%   <088>}};
+		#if {$per < 50} {#var graph {<008><FEB>    <070>$per%%   <088>}};
+		#if {$per < 40} {#var graph {<008><FDB>   <070> $per%%   <088>}};
+		#if {$per < 30} {#var graph {<508><FCB>  <570>  $per%%   <088>}};
+		#if {$per < 20} {#var graph {<508><FBB> <570>   $per%%   <088>}};
+		#if {$per < 10} {#var graph {<570>     $per%%   <088>}}
+	} {
+		#format {var} {%.3s} {%1};
+		#if {"$var" == "bet" || "$var" == "hea"} {
+			#var graph {<006>          <088>}
+		}; #elseif {"$var" == "per"} {
+			#var graph {<008><AFA>          <088>}
+		}; #elseif {"$var" == "bru"} {
+			#var graph {<008><BEA>        <088>  }
+		}; #elseif {"$var" == "ble"} {
+			#var graph {<008><DBA>    <088>      }
+		}; #elseif {"$var" == "eme" || "$var" == "alm"} {
+			#var graph {<008><FAA> <088>         }
+		}; #else {
+			#var graph {          }
+		}
+	};
+
+        #return $graph
+}
+
+#function {colscale} {
+	#math per {100*%1/%2};
+        #switch {1} {
+                #case {$per > 100}	{#return <168>%1<088>};
+                #case {$per > 90}	{#return <afb>%1<088>};
+                #case {$per > 80}	{#return <cfb>%1<088>};
+                #case {$per > 70}	{#return <dfb>%1<088>};
+                #case {$per > 60}	{#return <efb>%1<088>};
+                #case {$per > 50}	{#return <ffb>%1<088>};
+                #case {$per > 40}	{#return <feb>%1<088>};
+                #case {$per > 30}	{#return <599><fdb>%1<088>};
+                #case {$per > 20}	{#return <599><fcb>%1<088>};
+                #case {$per > 10}	{#return <599><fbb>%1<088>};
+                #case {$per >= 0}	{#return <599><faa>%1<088>};
+                #default 	{#return <088>%1};
+        }
+}
+
+#action {^%1>$}
+{
+    #if {$PROMPT[is_enabled] == 1}
+    {
+        #RETURN;
+    };
+
+}
+
+
+
+#class prompt close;

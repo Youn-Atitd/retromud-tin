@@ -1,0 +1,8 @@
+#class Youn open;
+#var food {corpse};
+
+#ALIAS {tar %1} {
+    #var tar %1;
+};
+
+#class Youn close; 

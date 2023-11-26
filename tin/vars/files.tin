@@ -1,0 +1,22 @@
+#class filevar open;
+
+#var {FILES}
+{
+    {profiles}{retromud-tin/tin/profiles.tt}
+    {settings}{retromud-tin/tin/settings.tt}
+    {prompt}{retromud-tin/tin/prompt.tt}
+    {comm}{retromud-tin/tin/comm.tt}
+    {toggle}{retromud-tin/tin/toggle.tt}
+};
+
+#var {DATA}
+{
+    {charactervars}{retromud-tin/tin/vars/character.tin}
+    {screenvars}{retromud-tin/tin/vars/screen.tin}
+    {promptvars}{retromud-tin/tin/vars/prompt.tin}
+    {commvar}{retromud-tin/tin/vars/comms.tin}
+    {colorvars}{retromud-tin/tin/vars/colors.tin}
+    {togglevars}{retromud-tin/tin/vars/toggle.tin}
+};
+
+#class filevar close;

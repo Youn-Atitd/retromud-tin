@@ -1,0 +1,14 @@
+#class promptvars open;
+
+#var {PROMPT}
+{
+    {first_row}{0}
+    {second_row}{0}
+    {third_row}{0}
+    {first_column}{3}
+    {second_column}{39}
+    {third_column}{70}
+    {is_enabled}{1}
+};
+
+#class promptvars close;

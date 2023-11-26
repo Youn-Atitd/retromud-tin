@@ -1,0 +1,10 @@
+#class togglevars open;
+
+#var {TOGGLE}
+{
+    {butcher}{0}
+    {recover}{0}
+    {keys}{0}
+};
+
+#class togglevars close;

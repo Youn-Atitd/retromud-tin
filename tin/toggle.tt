@@ -1,0 +1,50 @@
+#class toggle open;
+
+#nop required: toggle.vars
+
+#nop {
+    Toggles butcher of corpses on death.
+};
+#alias {toggle butcher} {
+    #if {$TOGGLE[butcher]} {
+        #var TOGGLE[butcher] {0};
+        WarningMessage Auto butcher off..;
+    };
+    #else {
+        #var TOGGLE[butcher] {1};
+        InfoMessage Auto butcher on...;
+    };
+
+};
+
+#nop {
+    Toggles recovering arrows on death.
+};
+#alias {toggle recover} {
+    #if {$TOGGLE[recover]} {
+        #var TOGGLE[recover] {0};
+        WarningMessage Auto recover off..;
+    };
+    #else {
+        #var TOGGLE[recover] {1};
+        InfoMessage Auto recover on...;
+    };
+
+};
+
+#nop {
+    Toggles looting of keys on death.
+};
+#alias {toggle keys} {
+    #if {$TOGGLE[keys]} {
+        #var TOGGLE[keys] {0};
+        WarningMessage Auto loot keys off..;
+    };
+    #else {
+        #var TOGGLE[keys] {1};
+        InfoMessage Auto loot keys on...;
+    };
+
+};
+
+#class toggle close;

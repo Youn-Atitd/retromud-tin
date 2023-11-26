@@ -1,0 +1,27 @@
+#class commsvars open;
+
+#variable {comm_window}
+{
+    {active}{all}
+    {offset}{1}
+    {tab}
+    {
+        {all}{}
+        {chats}{}
+        {nars}{}
+        {tells}{}
+        {says}{}
+        {group}{}
+    }
+    {unread}
+    {
+        {all} {0}
+        {chats} {0}
+        {nars}  {0}
+        {tells} {0}
+        {says}  {0}
+        {group} {0}
+    }
+}
+
+#class commsvars close;

@@ -1,0 +1,51 @@
+#class {screenvars} open;
+
+#var {SCREEN}
+{
+    {comms}
+    {
+        {ul}
+        {
+            {x}{0}
+            {y}{0}
+        }
+        {lr}
+        {
+            {x}{0}
+            {y}{0}
+        }
+    }
+    {map}
+    {
+        {ul}
+        {
+            {x}{0}
+            {y}{0}
+        }
+        {lr}
+        {
+            {x}{0}
+            {y}{0}
+        }
+    }
+    {scroll}
+    {
+        {ul}
+        {
+            {x}{0}
+            {y}{0}
+        }
+        {lr}
+        {
+            {x}{0}
+            {y}{0}
+        }
+    }
+    {mapping} {0}
+    {horizontal} {0}
+    {cols} {0}
+    {size}{ultra_wide}
+    {is_loaded} {0}
+};
+
+#class {screenvars} close;

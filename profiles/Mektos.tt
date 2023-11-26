@@ -1,0 +1,8 @@
+#class Mektos open;
+#var food {bread};
+
+#ALIAS {tar %1} {
+    #var tar %1;
+};
+
+#class Mektos close; 

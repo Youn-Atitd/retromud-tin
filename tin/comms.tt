@@ -1,0 +1,144 @@
+#VARIABLE {COMMS[buffer_size]} {1000};
+
+#FUNCTION {_comms_init}
+{
+	#LOCAL {_i} {0};
+	#LOOP {1} {$COMMS[buffer_size]} {_i}
+	{
+		#VARIABLE {COMMS[buffer][$_i]} {};
+	};
+
+	#RETURN {#NOP};
+};
+
+#FUNCTION {_comms_add_line}
+{
+	#LOCAL {_line} {%1};
+
+	#LOCAL  {_sublines} {};
+	#FORMAT {_sublines} {%w} {{$_line}};
+
+	#LOCAL {_subline} {};
+	#FOREACH {$_sublines[%*]} {_subline}
+	{
+		#LIST {COMMS[buffer]} {insert} {-1} {$_subline};
+	};
+
+	#WHILE {&COMMS[buffer][] > $COMMS[buffer_size]}
+	{
+		#LIST {COMMS[buffer]} {delete} {1};
+	};
+
+	@_comms_display{};
+
+	#RETURN {#NOP};
+};
+
+#FUNCTION {_comms_display}
+{
+	#IF {$SCREEN[comms][ul][y] == 0}
+	{
+		#RETURN {#NOP};
+	};
+
+	#SCREEN clear square
+		{$SCREEN[comms][ul][y]} {$SCREEN[comms][ul][x]}
+		{$SCREEN[comms][lr][y]} {$SCREEN[comms][lr][x]};
+
+
+	#LOCAL {_lines} {0};
+	#MATH  {_lines} {$SCREEN[comms][lr][y] - $SCREEN[comms][ul][y] + 1};
+
+	#LOCAL {_i} {0};
+	#LOOP {1} {$_lines} {_i}
+	{
+		#LOCAL {_y} {0};
+		#LOCAL {_x} {0};
+
+		#MATH {_y} {$SCREEN[comms][lr][y] - $_i + 1};
+		#MATH {_x} {$SCREEN[comms][ul][x]};
+
+		#LOCAL {_j} {0};
+		#MATH  {_j} {0 - $_i};
+
+		#LOCAL  {_line} {$COMMS[buffer][$_j]};
+		#FORMAT {_line} {%s} {$_line};
+
+		#LINE ignore #SHOW {$_line} {$_y} {$_x};
+	};
+
+	#RETURN {#NOP};
+};
+
+#ACTION {%1 tells you %2}
+{
+	#LOCAL  {_line} {};
+    #LOCAL  {_time} {};
+    #FORMAT {_time} {%c[%c%t%c]}{<aef>}{<eef>}{%H:%M}{<aef>};
+	#FORMAT {_line} {%s%c %s tells you:%c %s} {$_time} {light green} {%1} {reset} {%2};
+	@_comms_add_line{$_line};
+};
+
+#ACTION {%1 says %2}
+{
+	#LOCAL  {_line} {};
+    #LOCAL  {_time} {};
+    #FORMAT {_time} {%c[%c%t%c]}{<aef>}{<eef>}{%H:%M}{<aef>};
+	#FORMAT {_line} {%s%c %s says:%c %s} {$_time} {light green} {%1} {reset} {%2};
+	@_comms_add_line{$_line};
+};
+
+#ACTION {%1 chats %2}
+{
+	#LOCAL  {_line} {};
+    #LOCAL  {_time} {};
+    #FORMAT {_time} {%c[%c%t%c]}{<aef>}{<eef>}{%H:%M}{<aef>};
+	#FORMAT {_line} {%s%c %s chats:%c %s} {$_time} {light green} {%1} {reset} {%2};
+	@_comms_add_line{$_line};
+};
+
+#ACTION {You tell %1 %2}
+{
+	#LOCAL  {_line} {};
+    #LOCAL  {_time} {};
+    #FORMAT {_time} {%c[%c%t%c]}{<aef>}{<eef>}{%H:%M}{<aef>};
+	#FORMAT {_line} {%s%c You tell %s:%c %s} {$_time} {light green} {%1} {reset} {%2};
+	@_comms_add_line{$_line};
+};
+
+#ACTION {You chat %1}
+{
+	#LOCAL  {_line} {};
+    #LOCAL  {_time} {};
+    #FORMAT {_time} {%c[%c%t%c]}{<aef>}{<eef>}{%H:%M}{<aef>};
+	#FORMAT {_line} {%s%c You chat:%c %s} {$_time} {light yellow} {reset} {%1};
+	@_comms_add_line{$_line};
+};
+
+#ACTION {You say %1}
+{
+	#LOCAL  {_line} {};
+    #LOCAL  {_time} {};
+    #FORMAT {_time} {%c[%c%t%c]}{<aef>}{<eef>}{%H:%M}{<aef>};
+	#FORMAT {_line} {%s%c You say:%c %s} {$_time} {light yellow} {reset} {%1};
+	@_comms_add_line{$_line};
+};
+
+#ACTION {You narrate %1}
+{
+	#LOCAL  {_line} {};
+    #LOCAL  {_time} {};
+    #FORMAT {_time} {%c[%c%t%c]}{<aef>}{<eef>}{%H:%M}{<aef>};
+	#FORMAT {_line} {%s%c You narrate:%c %s} {$_time} {light yellow} {reset} {%1};
+	@_comms_add_line{$_line};
+};
+
+#ACTION {%1 narrates %2}
+{
+	#LOCAL  {_line} {};
+    #LOCAL  {_time} {};
+    #FORMAT {_time} {%c[%c%t%c]}{<aef>}{<eef>}{%H:%M}{<aef>};
+	#FORMAT {_line} {%s%c %s narrates:%c %s} {$_time} {light yellow} {%1} {reset} {%2};
+	@_comms_add_line{$_line};
+};
+

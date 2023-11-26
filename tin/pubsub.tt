@@ -1,0 +1,38 @@
+#nop {== Publish subscribe events}
+
+#FUNCTION {PUBSUB_SUBSCRIBE}
+{
+	#LOCAL {_eventname} {%1};
+	#LOCAL {_callback}  {%2};
+	#LOCAL {_current}   {};
+	#LOCAL {_length}    {0};
+
+	#IF {&PUBSUB[$_eventname]}
+	{
+		#LOCAL {_current} {$PUBSUB[$_eventname]};
+		#CAT   {_current} {;};
+		#CAT   {_current} {$_callback};
+	};
+	#ELSE
+	{
+		#LOCAL {_current} {$_callback};
+	};
+
+	#VARIABLE {PUBSUB[$_eventname]} {$_current};
+
+	#RETURN {#nop};
+};
+
+#FUNCTION {PUBSUB_PUBLISH}
+{
+	#LOCAL {_eventname} {%1};
+	#LOCAL {_callbacks} {$PUBSUB[$_eventname]};
+	#LOCAL {_callback}  {};
+
+	#FOREACH {$_callbacks} {_callback}
+	{
+		@{$_callback}{%2};
+	};
+
+	#RETURN {#nop};
+}

@@ -1,0 +1,68 @@
+#CONFIG {BUFFER SIZE} {10000}
+#CONFIG {CHARSET} {UTF-8}
+#CONFIG {COLOR MODE} {TRUE}
+#CONFIG {COLOR PATCH} {OFF}
+#CONFIG {COMMAND COLOR} {\e[0;37m}
+#CONFIG {COMMAND ECHO} {ON}
+#CONFIG {COMPACT} {OFF}
+#CONFIG {HISTORY SIZE} {1000}
+#CONFIG {LOG MODE} {RAW}
+#CONFIG {MOUSE} {OFF}
+#CONFIG {PACKET PATCH} {AUTO OFF}
+#CONFIG {REPEAT CHAR} {!}
+#CONFIG {REPEAT ENTER} {OFF}
+#CONFIG {SCREEN READER} {OFF}
+#CONFIG {SCROLL LOCK} {ON}
+#CONFIG {SPEEDWALK} {OFF}
+#CONFIG {TELNET} {ON}
+#CONFIG {VERBATIM} {OFF}
+#CONFIG {VERBATIM CHAR} {\}
+#CONFIG {VERBOSE} {OFF}
+#CONFIG {WORDWRAP} {ON}
+
+#EVENT {PROGRAM START}
+{
+    #session {retromud} {retromud.org} {3000}{tin/all.tt}
+}
+
+
+#PATHDIR {d} {u} {32}
+#PATHDIR {e} {w} {2}
+#PATHDIR {n} {s} {1}
+#PATHDIR {ne} {sw} {3}
+#PATHDIR {nw} {se} {9}
+#PATHDIR {s} {n} {4}
+#PATHDIR {se} {nw} {6}
+#PATHDIR {sw} {ne} {12}
+#PATHDIR {u} {d} {16}
+#PATHDIR {w} {e} {8}
+
+#VARIABLE {info}
+{
+    {SESSION} 
+    {
+        {ACTIVE} {1}
+        {CLASS} {}
+        {CREATED} {1701005969}
+        {HOST} {retromud.org}
+        {IP} {96.126.116.118}
+        {MTTS} {783}
+        {NAME} {Retromud}
+        {PORT} {3000}
+    }
+}
+#VARIABLE {my}
+{
+    {ep} {428}
+    {ep_max} {428}
+    {gold} 
+    {
+        {carried} {0}
+    }
+    {hp} {1131}
+    {hp_max} {1131}
+    {sp} {1788}
+    {sp_max} {1788}
+    {xp} {1381}
+}
+

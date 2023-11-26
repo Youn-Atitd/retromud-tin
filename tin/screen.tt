@@ -1,0 +1,318 @@
+#NOP {== Screen Management};
+
+#EVENT {SCREEN RESIZE}
+{
+    #screen clear all;
+	#var {_rows}   {%0};
+	#var {_cols}   {%1};
+	#var {_height} {%2};
+	#var {_width}  {%3};
+	#VARIABLE {SCREEN[cols]} {$_cols};
+
+    #var {_split_amount}{0};
+    #VAR {PROMPT[is_enabled]} {1};
+
+    #if {$_cols > 250} {
+        #var comm_window[active] {all};
+        _setup_ultra_wide;
+    };
+    #elseif {$_cols <= 250 && $_cols >= 175} {
+        #var comm_window[active] {none};
+        _setup_1080_p;
+    };
+    #else {
+        _setup_mobile;
+    };
+    #var SCREEN[split] {$_rows};
+    #VAR {MAPNOTES[is_enabled]} {1};
+
+
+    #nop prompt display;
+    #math {SCREEN[prompt][first_row]}{$SCREEN[prompt-inner][toprow] +1};
+    #math {SCREEN[prompt][second_row]}{$SCREEN[prompt][first_row] +1};
+    #math {SCREEN[prompt][third_row]}{$SCREEN[prompt][second_row] +1};
+    #math {SCREEN[prompt][fourth_row]}{$SCREEN[prompt][third_row] +1};
+    #math {SCREEN[prompt][fifth_row]}{$SCREEN[prompt][fourth_row] +1};
+
+    #math {SCREEN[prompt][first_col]}{$SCREEN[prompt-inner][topcol] + 1};
+    #math {SCREEN[prompt][first_divider]}{$SCREEN[prompt][first_col]+40};
+    #math {SCREEN[prompt][second_col]}{$SCREEN[prompt][first_divider] +1};
+
+    #math {SCREEN[prompt][second_divider]}{$SCREEN[prompt][second_col]+30};
+    #math {SCREEN[prompt][third_col]}{$SCREEN[prompt][second_divider]+1};
+
+    #math {SCREEN[prompt][third_divider]}{$SCREEN[prompt][third_col]+40};
+    #math {SCREEN[prompt][fourth_col]}{$SCREEN[prompt][third_divider]+1};
+
+
+    @_class_prompt{};
+
+
+    #draw $accent_color uni vertical line $SCREEN[prompt][first_row] $SCREEN[prompt][first_divider] $SCREEN[prompt][fifth_row] $SCREEN[prompt][first_divider];
+    #draw $accent_color uni vertical line $SCREEN[prompt][first_row] $SCREEN[prompt][second_divider] $SCREEN[prompt][fifth_row] $SCREEN[prompt][second_divider];
+    #draw $accent_color uni vertical line $SCREEN[prompt][first_row] $SCREEN[prompt][third_divider] $SCREEN[prompt][fifth_row] $SCREEN[prompt][third_divider];
+
+
+	@PUBSUB_PUBLISH{screen_changed};
+
+	#BUFFER {end};
+};
+
+#function {character_panel_border}
+{
+    #return $SCREEN[sheet][toprow] $SCREEN[sheet][topcol] $SCREEN[sheet][botrow] $SCREEN[sheet][botcol];
+};
+
+#function {left_panel_border}
+{
+    #return $SCREEN[left-border][toprow] $SCREEN[left-border][topcol] $SCREEN[left-border][botrow] $SCREEN[left-border][botcol];
+};
+
+#function {left_panel_inner}
+{
+    #return $SCREEN[left-inner][toprow] $SCREEN[left-inner][topcol] $SCREEN[left-inner][botrow] $SCREEN[left-inner][botcol];
+};
+
+#function {right_panel_border}
+{
+    #return $SCREEN[right-border][toprow] $SCREEN[right-border][topcol] $SCREEN[right-border][botrow] $SCREEN[right-border][botcol];
+};
+
+#function {right_panel_inner}
+{
+    #return $SCREEN[right-inner][toprow] $SCREEN[right-inner][topcol] $SCREEN[right-inner][botrow] $SCREEN[right-inner][botcol];
+};
+
+#function {prompt_panel_border}
+{
+    #return $SCREEN[prompt-border][toprow] $SCREEN[prompt-border][topcol] $SCREEN[prompt-border][botrow] $SCREEN[prompt-border][botcol];
+};
+
+#function {prompt_panel_inner}
+{
+    #return $SCREEN[prompt-inner][toprow] $SCREEN[prompt-inner][topcol] $SCREEN[prompt-inner][botrow] $SCREEN[prompt-inner][botcol];
+};
+
+
+#function {buffer_panel}
+{
+    #return $SCREEN[buffer][toprow] $SCREEN[buffer][topcol] $SCREEN[buffer][botrow] $SCREEN[buffer][botcol];
+};
+
+
+#alias {_setup_mobile} {
+    #return {#NOP;};
+};
+
+#alias {_setup_1080_p}
+{
+    #var SCREEN[size] {1080p};
+    #math {_split_amount} {$_cols / 3};
+
+    #math {SCREEN[buffer][botrow]} { $_rows - 10 };
+    #math {SCREEN[buffer][toprow]} { 1 };
+    #math {SCREEN[buffer][topcol]} { 1 };
+    #math {SCREEN[buffer][botcol]} { $_cols - $_split_amount + 1 };
+
+    #math {SCREEN[prompt-border][botrow]} { $_rows - 1 };
+    #math {SCREEN[prompt-border][toprow]} { $_rows - 9 };
+    #math {SCREEN[prompt-border][topcol]} { 1 };
+    #math {SCREEN[prompt-border][botcol]} { $_cols - $_split_amount + 1 };
+
+    #math {SCREEN[prompt-inner][botrow]} {$SCREEN[prompt-border][botrow] -1};
+    #math {SCREEN[prompt-inner][toprow]} {$SCREEN[prompt-border][toprow] +1};
+    #math {SCREEN[prompt-inner][topcol]} {$SCREEN[prompt-border][topcol] +1};
+    #math {SCREEN[prompt-inner][botcol]} {$SCREEN[prompt-border][botcol] -1};
+
+    #math {SCREEN[right-border][botrow]} { $_rows - 1 };
+    #math {SCREEN[right-border][toprow]} { 1 };
+    #math {SCREEN[right-border][topcol]} { $_cols - $_split_amount + 3};
+    #math {SCREEN[right-border][botcol]} { $_cols - 1 };
+
+    #math {SCREEN[right-inner][botrow]} {$SCREEN[right-border][botrow] -1};
+    #math {SCREEN[right-inner][toprow]} {$SCREEN[right-border][toprow] +1};
+    #math {SCREEN[right-inner][topcol]} {$SCREEN[right-border][topcol] +1};
+    #math {SCREEN[right-inner][botcol]} {$SCREEN[right-border][botcol] -1};
+
+    #math {SCREEN[map][botrow]} {$SCREEN[right-inner][botrow] -1};
+    #math {SCREEN[map][toprow]} {$SCREEN[right-inner][toprow] +1};
+    #math {SCREEN[map][topcol]} {$SCREEN[right-inner][topcol] +1};
+    #math {SCREEN[map][botcol]} {$SCREEN[right-inner][botcol] -1};
+
+    #line quiet #split 1 10 1 $_split_amount 1;
+
+    #nop buffer panel;
+    #draw $secondary_border uni join jeweled box @buffer_panel{};
+
+    #nop prompt panel;
+    #draw $secondary_color uni join tubed jeweled box @prompt_panel_border{};
+    #draw $primary_border uni tubed teed join box @prompt_panel_inner{};
+
+    #nop right panel;
+    #draw $primary_border uni tubed jeweled box @right_panel_border{};
+    #draw $secondary_border uni cross join box @right_panel_inner{};
+
+
+
+}
+
+#alias {_setup_ultra_wide}
+{
+    #var SCREEN[size] {ultra_wide};
+    #math {_split_amount} {$_cols / 4};
+    #variable {SCREEN[comms][toprow]} {1};
+    #variable {SCREEN[comms][topcol]} {1};
+    #variable {SCREEN[comms][botrow]} {$_rows};
+    #math {SCREEN[comms][botcol]} {$_split_amount -1};
+
+    #math {SCREEN[left-border][botrow]} { $_rows - 1 };
+    #math {SCREEN[left-border][toprow]} { 1 };
+    #math {SCREEN[left-border][topcol]} { 2 };
+    #math {SCREEN[left-border][botcol]} { $_split_amount - 2 };
+
+    #math {SCREEN[left-inner][botrow]} {$SCREEN[left-border][botrow] -1};
+    #math {SCREEN[left-inner][toprow]} {$SCREEN[left-border][toprow] +1};
+    #math {SCREEN[left-inner][topcol]} {$SCREEN[left-border][topcol] +1};
+    #math {SCREEN[left-inner][botcol]} {$SCREEN[left-border][botcol] -1};
+
+    #math {SCREEN[buffer][botrow]} { $_rows - 10 };
+    #math {SCREEN[buffer][toprow]} { 1 };
+    #math {SCREEN[buffer][topcol]} { $_split_amount };
+    #math {SCREEN[buffer][botcol]} { $_cols - $_split_amount + 1 };
+
+    #math {SCREEN[prompt-border][botrow]} { $_rows - 1 };
+    #math {SCREEN[prompt-border][toprow]} { $_rows - 9 };
+    #math {SCREEN[prompt-border][topcol]} { $_split_amount };
+    #math {SCREEN[prompt-border][botcol]} { $_cols - $_split_amount + 1 };
+
+    #math {SCREEN[prompt-inner][botrow]} {$SCREEN[prompt-border][botrow] -1};
+    #math {SCREEN[prompt-inner][toprow]} {$SCREEN[prompt-border][toprow] +1};
+    #math {SCREEN[prompt-inner][topcol]} {$SCREEN[prompt-border][topcol] +1};
+    #math {SCREEN[prompt-inner][botcol]} {$SCREEN[prompt-border][botcol] -1};
+
+    #math {SCREEN[right-border][botrow]} { $_rows - 1 };
+    #math {SCREEN[right-border][toprow]} { 1 };
+    #math {SCREEN[right-border][topcol]} { $_cols - $_split_amount + 3};
+    #math {SCREEN[right-border][botcol]} { $_cols - 1 };
+
+    #math {SCREEN[right-inner][botrow]} {$SCREEN[right-border][botrow] -1};
+    #math {SCREEN[right-inner][toprow]} {$SCREEN[right-border][toprow] +1};
+    #math {SCREEN[right-inner][topcol]} {$SCREEN[right-border][topcol] +1};
+    #math {SCREEN[right-inner][botcol]} {$SCREEN[right-border][botcol] -1};
+
+    #math {SCREEN[map][botrow]} {$SCREEN[right-inner][botrow] -1};
+    #math {SCREEN[map][toprow]} {$SCREEN[right-inner][toprow] +1};
+    #math {SCREEN[map][topcol]} {$SCREEN[right-inner][topcol] +1};
+    #math {SCREEN[map][botcol]} {$SCREEN[right-inner][botcol] -1};
+
+    #nop #line quite #split 15 5 $_split_amount $_split_amount 1;
+    #line quiet #split 1 10 $_split_amount $_split_amount 1;
+
+    #nop left panel;
+    #draw $primary_border uni tubed jeweled box @left_panel_border{};
+    #draw $secondary_border uni cross join box @left_panel_inner{};
+
+    #nop buffer panel;
+    #draw $secondary_border uni join jeweled box @buffer_panel{};
+
+    #nop prompt panel;
+    #draw $secondary_color uni join tubed jeweled box @prompt_panel_border{};
+    #draw $primary_border uni tubed teed join box @prompt_panel_inner{};
+
+    #nop right panel;
+    #draw $primary_border uni tubed jeweled box @right_panel_border{};
+    #draw $secondary_border uni cross join box @right_panel_inner{};
+
+    #nop comms setup;
+    #math {SCREEN[comms][botrow]} {$SCREEN[left-inner][botrow] -1};
+    #math {SCREEN[comms][toprow]} {$SCREEN[left-inner][botrow] / 2+2};
+    #math {SCREEN[comms][topcol]} {$SCREEN[left-inner][topcol] +1};
+    #math {SCREEN[comms][botcol]} {$SCREEN[left-inner][botcol] -1};
+
+    comm_window_draw_tabs;
+
+    #nop character sheet;
+    #math {SCREEN[sheet][botrow]} {$SCREEN[left-inner][botrow] / 2 +1};
+    #math {SCREEN[sheet][toprow]} {$SCREEN[left-inner][toprow] +1};
+    #math {SCREEN[sheet][topcol]} {$SCREEN[left-inner][topcol] +1};
+    #math {SCREEN[sheet][botcol]} {$SCREEN[left-inner][botcol] -1};
+
+    #SCREEN inputregion $_rows $SCREEN[buffer][topcol] $_rows $SCREEN[buffer][botcol];
+}
+
+
+
+#function {character_sheet_draw} {
+
+    #if {"$SCREEN[size]" != "ultra_wide" || !$SCREEN[is_loaded]} {
+        #return {#NOP;};
+    };
+
+    #draw $accent_color uni tubed teed  box @character_panel_border{};
+    #line quiet #scan file {$character_ascii}{#var _character_profile {&0}};
+    #draw tile $SCREEN[sheet][toprow]+1 $SCREEN[sheet][topcol]+1 $SCREEN[sheet][botrow]-1 $SCREEN[sheet][botcol]-1 $_character_profile;
+
+    #math {SCREEN[sheet][info][first_row]}{$SCREEN[sheet][toprow]+1};
+    #math {SCREEN[sheet][info][second_row]}{$SCREEN[sheet][info][first_row]+1};
+    #math {SCREEN[sheet][info][third_row]}{$SCREEN[sheet][info][second_row]+1};
+    #math {SCREEN[sheet][info][fourth_row]}{$SCREEN[sheet][info][third_row]+1};
+    #math {SCREEN[sheet][info][fifth_row]}{$SCREEN[sheet][info][fourth_row]+1};
+    #math {SCREEN[sheet][info][sixth_row]}{$SCREEN[sheet][info][fifth_row]+1};
+    #math {SCREEN[sheet][info][seventh_row]}{$SCREEN[sheet][info][sixth_row]+1};
+    #math {SCREEN[sheet][info][eigth_row]}{$SCREEN[sheet][info][seventh_row]+1};
+    #math {SCREEN[sheet][info][nineth_row]}{$SCREEN[sheet][info][eigth_row]+1};
+    #math {SCREEN[sheet][info][ten_row]}{$SCREEN[sheet][info][nineth_row]+1};
+    #math {SCREEN[sheet][info][eleven_row]}{$SCREEN[sheet][info][ten_row]+1};
+    #math {SCREEN[sheet][info][twelve_row]}{$SCREEN[sheet][info][eleven_row]+1};
+
+    #math {SCREEN[sheet][info][first_col]}{$SCREEN[sheet][topcol] +58};
+
+    #showme {Name: $my[name]} $SCREEN[sheet][info][first_row] $SCREEN[sheet][info][first_col];
+    #showme {Race: $my[race]} $SCREEN[sheet][info][second_row] $SCREEN[sheet][info][first_col];
+    #showme {Level: $my[level]} $SCREEN[sheet][info][third_row] $SCREEN[sheet][info][first_col];
+    #line ignore #showme {HP: $my[hp][max], M: $my[sm][max], MV: $my[mv][max]} $SCREEN[sheet][info][fourth_row] $SCREEN[sheet][info][first_col];
+    #showme {Spec: $my[specialization]} $SCREEN[sheet][info][fifth_row] $SCREEN[sheet][info][first_col];
+    #showme {Str: $my[min_str]/$my[max_str]} $SCREEN[sheet][info][sixth_row] $SCREEN[sheet][info][first_col];
+    #showme {Int: $my[min_int]/$my[max_int]} $SCREEN[sheet][info][seventh_row] $SCREEN[sheet][info][first_col];
+    #showme {Wil: $my[min_wil]/$my[max_wil]} $SCREEN[sheet][info][eigth_row] $SCREEN[sheet][info][first_col];
+    #showme {Dex: $my[min_dex]/$my[max_dex]} $SCREEN[sheet][info][nineth_row] $SCREEN[sheet][info][first_col];
+    #showme {Con: $my[min_con]/$my[max_con]} $SCREEN[sheet][info][ten_row] $SCREEN[sheet][info][first_col];
+    #showme {Lea: $my[min_lea]/$my[max_lea]} $SCREEN[sheet][info][eleven_row] $SCREEN[sheet][info][first_col];
+
+    #return {#NOP;};
+}
+
+@PUBSUB_SUBSCRIBE{update_profile; character_sheet_draw};
+@PUBSUB_SUBSCRIBE{screen_changed; character_sheet_draw};
+
+#function {_toggle_button}
+{
+    #if {%1 == 1}
+    {
+        #return $toggle_on;
+    };
+    #else
+    {
+        #return $toggle_off;
+    };
+}
+
+#function {_toggle_casting}
+{
+    #if {%1 == 0} {
+        #return $toggle_slow;
+    };
+    #elseif {%1 == 1} {
+        #return $toggle_norm;
+    };
+    #else {
+        #return $toggle_fast;
+    };
+}
+
+#function {_class_prompt}
+{
+    #RETURN {#NOP;};
+}
+
+#SCREEN raise {SCREEN RESIZE};

@@ -1,0 +1,21 @@
+#class colorvars open;
+
+#variable {primary_border} {<FC3A265>};
+#variable {secondary_border} {<F68727D>};
+#variable {secondary_color} {<F33383E>};
+#variable {primary_color} {<F213048>};
+#variable {accent_color} {<F39517A>};
+
+#variable {toggle_off} {<B68727D>   <B33383E>   <088>};
+#variable {toggle_on} {<B39517A>   <BE4EAEF>   <088>};
+#variable {toggle_def} {<BE4EAEF><F000000> def <088><B33383E> car <B33383E> nor <B33383E> agg <B33383E> ber <088>};
+#variable {toggle_car} {<B33383E> def <BE4EAEF><F000000> car <088><B33383E> nor <B33383E> agg <B33383E> ber <088>};
+#variable {toggle_nor} {<B33383E> def <B33383E> car <BE4EAEF><F000000> nor <088><B33383E> agg <B33383E> ber <088>};
+#variable {toggle_agg} {<B33383E> def <B33383E> car <B33383E> nor <BE4EAEF><F000000> agg <088><B33383E> ber <088>};
+#variable {toggle_ber} {<B33383E> def <B33383E> car <B33383E> nor <B33383E> agg <BE4EAEF><F000000> ber <088>};
+
+#variable {toggle_fast} {<F000000><B39517A> slow <B39517A> normal <BE4EAEF><588><188> FAST <088>};
+#variable {toggle_norm} {<F000000><B39517A> slow <BE4EAEF> NORMAL <B39517A> fast <088>};
+#variable {toggle_slow} {<F000000><BE4EAEF> SLOW <B39517A> normal <B39517A> fast <088>};
+
+#class colorvars close;

@@ -1,0 +1,24 @@
+#class settings open;
+
+#EVENT {SESSION CONNECTED} {
+    #split 5 5 0 -120;
+};
+
+#alias {set auto eat}
+{
+    #if {$AUTO[eat]}
+    {
+        WarningMessage Disabling Auto Eat and Drink...;
+        #var AUTO[eat] 0;
+        #var AUTO[drink] 0;
+    };
+    #else
+    {
+        InfoMessage Enabling Auto Eat and Drink...;
+        #var AUTO[eat] 1;
+        #var AUTO[drink] 1;
+    };
+}
+
+
+#class settings close;
