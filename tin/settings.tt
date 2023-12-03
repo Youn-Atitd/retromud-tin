@@ -1,7 +1,8 @@
 #class settings open;
 
 #EVENT {SESSION CONNECTED} {
-    #split 5 5 0 -120;
+    #screen rescale 2000 3000;
+ 
 };
 
 #alias {set auto eat}

@@ -1,1 +1,5 @@
-#read retromud-tin/tin/all.tt
+
+#EVENT {PROGRAM START}
+{
+    #session {retromud} {retromud.org} {3000} {retromud-tin/tin/all.tt};
+};

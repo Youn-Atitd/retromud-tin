@@ -1,7 +1,0 @@
-#class character_var open;
-#VARIABLE {my}
-{
- 
-};
-
-#class character_var close;

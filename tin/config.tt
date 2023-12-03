@@ -1,4 +1,0 @@
-#config {COMMAND COLOR} {\e[1;34m};
-#config {MOUSE} {ON};
-#config {repeat enter} on;
-#config log {plain}

@@ -24,7 +24,7 @@
     #var {my[hp][graph]} {@graph{%1;%2}};
     #var {my[sp][graph]} {@graph{%3;%4}};
     #var {my[ep][graph]} {@graph{%5;%6}};
-
+ 
     #if {$PROMPT[is_enabled] == 1}
     {
 
@@ -34,8 +34,8 @@
         #format {sp_max}	{%+4s} {<128>$my[sp][max]<088>};
         #format {ep}		{%+4s} {@colscale{$my[ep][current];$my[ep][max]}};
         #format {ep_max}	{%+4s} {<128>$my[ep][max]<088>};
-        #showme {H:$my[hp][graph] S:$my[sp][graph] E:$my[ep][graph]}{$SCREEN[prompt][first_row]}{$SCREEN[prompt][first_col]};
-        #showme {HP:$hp/$hp_max SP:$sp/$sp_max EP:$ep/$ep_max}{$SCREEN[prompt][second_row]}{$SCREEN[prompt][first_col]};
+        #SHOWME {H:$my[hp][graph] S:$my[sp][graph] E:$my[ep][graph]}{3}{3};
+        #SHOWME {HP:$hp/$hp_max SP:$sp/$sp_max EP:$ep/$ep_max}{4}{3};
         #UNVARIABLE {hp};
         #UNVARIABLE {hp_max};
         #UNVARIABLE {sp};
@@ -47,7 +47,7 @@
     };
     #else
     {
-        #showme {H:$my[hp][graph] S:$my[sp][graph] E:$my[ep][graph]}{0}{1};
+        #SHOWME {H:$my[hp][graph] S:$my[sp][graph] E:$my[ep][graph]}{0}{1};
     };
 };
 
@@ -67,7 +67,7 @@
     #var {my[hp][graph]} {@graph{%1;%2}};
     #var {my[sp][graph]} {@graph{%3;%4}};
     #var {my[ep][graph]} {@graph{%5;%6}};
-
+ 
     #if {$PROMPT[is_enabled] == 1}
     {
 
@@ -77,8 +77,8 @@
         #format {sp_max}	{%+4s} {<128>$my[sp][max]<088>};
         #format {ep}		{%+4s} {@colscale{$my[ep][current];$my[ep][max]}};
         #format {ep_max}	{%+4s} {<128>$my[ep][max]<088>};
-        #showme {H:$my[hp][graph] S:$my[sp][graph] E:$my[ep][graph]}{$SCREEN[prompt][first_row]}{$SCREEN[prompt][first_col]};
-        #showme {HP:$hp/$hp_max SP:$sp/$sp_max EP:$ep/$ep_max}{$SCREEN[prompt][second_row]}{$SCREEN[prompt][first_col]};
+        #SHOWME {H:$my[hp][graph] S:$my[sp][graph] E:$my[ep][graph]}{3}{3};
+        #SHOWME {HP:$hp/$hp_max SP:$sp/$sp_max EP:$ep/$ep_max}{4}{3};
         #UNVARIABLE {hp};
         #UNVARIABLE {hp_max};
         #UNVARIABLE {sp};
@@ -89,7 +89,7 @@
     };
     #else
     {
-        #showme {H:$my[hp][graph] S:$my[sp][graph] E:$my[ep][graph]}{0}{1};
+        #SHOWME {H:$my[hp][graph] S:$my[sp][graph] E:$my[ep][graph]}{0}{1};
     };
 };
 
@@ -153,16 +153,6 @@
                 #default 	{#return <088>%1};
         }
 }
-
-#action {^%1>$}
-{
-    #if {$PROMPT[is_enabled] == 1}
-    {
-        #RETURN;
-    };
-
-}
-
 
 
 #class prompt close;

@@ -1,6 +1,6 @@
 #nop {Main configuration for RetroMud}
 
-#READ {retromud-tin/tin/vars/files.tin};
+#READ {retromud-tin/tin/vars/files.var};
 
 
 #foreach {$DATA[%*]} {file}
@@ -8,14 +8,9 @@
     #READ {$file};
 };
 
-#READ {retromud-tin/tin/pubsub.tt};
-#READ {retromud-tin/tin/config.tt};
 
 #foreach {$FILES[%*]} {file}
 {
     #READ {$file};
 };
 
-#READ {retromud-tin/tin/prompt.tt};
-#READ {retromud-tin/tin/settings.tt};
-#UNVARIABLE {file};
