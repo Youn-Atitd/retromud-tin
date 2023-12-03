@@ -24,6 +24,7 @@
     #var {my[hp][graph]} {@graph{%1;%2}};
     #var {my[sp][graph]} {@graph{%3;%4}};
     #var {my[ep][graph]} {@graph{%5;%6}};
+    #IF {$my[target]==""} {#var {my[target]}{monster}};
  
     #if {$PROMPT[is_enabled] == 1}
     {
@@ -36,6 +37,7 @@
         #format {ep_max}	{%+4s} {<128>$my[ep][max]<088>};
         #SHOWME {H:$my[hp][graph] S:$my[sp][graph] E:$my[ep][graph]}{3}{3};
         #SHOWME {HP:$hp/$hp_max SP:$sp/$sp_max EP:$ep/$ep_max}{4}{3};
+        #SHOWME {Target: $my[target]}{5}{3};
         #UNVARIABLE {hp};
         #UNVARIABLE {hp_max};
         #UNVARIABLE {sp};
@@ -67,6 +69,7 @@
     #var {my[hp][graph]} {@graph{%1;%2}};
     #var {my[sp][graph]} {@graph{%3;%4}};
     #var {my[ep][graph]} {@graph{%5;%6}};
+    #IF {$my[target]==""} {#var {my[target]}{monster}};
  
     #if {$PROMPT[is_enabled] == 1}
     {
@@ -79,6 +82,7 @@
         #format {ep_max}	{%+4s} {<128>$my[ep][max]<088>};
         #SHOWME {H:$my[hp][graph] S:$my[sp][graph] E:$my[ep][graph]}{3}{3};
         #SHOWME {HP:$hp/$hp_max SP:$sp/$sp_max EP:$ep/$ep_max}{4}{3};
+        #SHOWME {Target: $my[target]}{5}{3};
         #UNVARIABLE {hp};
         #UNVARIABLE {hp_max};
         #UNVARIABLE {sp};

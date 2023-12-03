@@ -2,6 +2,7 @@
 
 #READ {retromud-tin/tin/vars/files.var};
 
+#read retromud-tin/tin/pubsub.tt;
 
 #foreach {$DATA[%*]} {file}
 {

@@ -2,7 +2,12 @@
 
 #EVENT {SESSION CONNECTED} {
     #screen rescale 2000 3000;
- 
+    #config speedwalk on;
+    
+};
+
+#EVENT {SCREEN RESIZE} {
+    #split 6 6 0 -120 1;
 };
 
 #alias {set auto eat}
