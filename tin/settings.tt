@@ -3,10 +3,6 @@
 #EVENT {SESSION CONNECTED} {
     #screen rescale 2000 3000;
     #config speedwalk off;
-    #VARIABLE {ne}{northeast};
-    #VARIABLE {se} {southeast};
-    #VARIABLE {nw}{northwest};
-    #VARIABLE {sw} {southwest};
 };
 
 #EVENT {SCREEN RESIZE} {
