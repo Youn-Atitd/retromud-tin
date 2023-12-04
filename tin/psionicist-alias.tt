@@ -1,2 +1,6 @@
 #alias {.rp} {invoke resist pain}
-
+#ALIAS {.sp} {invoke focus crown chakra} {5};
+#alias {.heal}{invoke focus heart chakra}{5};
+#ALIAS {.spd} {
+    invoke speed at me
+} {5};

@@ -6,7 +6,7 @@
 #highlight {{E:|EP:}}{<afa>};
 
 
-#action {^Hp: %1/%2 Sp: %3/%4 Ep: %5/%6 Gold: %7 Exp: %8 >$}
+#action {^Hp: %d/%d Sp: %d/%d Ep: %d/%d Gold: %d Exp: %d >$}
 {
     #local _mana {};
     #local _health {};
@@ -53,7 +53,7 @@
     };
 };
 
-#action {^Hp: %1/%2 Sp: %3/%4 Ep: %5/%6$}
+#action {Hp: %d/%d Sp: %d/%d Ep: %d/%d}
 {
     #local _mana {};
     #local _health {};

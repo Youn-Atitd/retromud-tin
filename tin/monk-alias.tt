@@ -1,9 +1,12 @@
 #alias {.lheal} {invoke lesser chi heal at me}
 #alias {.cheal} {invoke chi healing at me}
 #alias {.gheal} {invoke greater chi heal at me}
-#alias {.stun} {use stun palm at $target}
-#alias {.dm} {use dim mak at $target}
-#alias {.tk} {use throat kick at $target}
-#alias {.sweep} {use sweep kick at $target}
+#alias {.stun} {use stun palm at $my[target]}
+#alias {.dm} {use dim mak at $my[target]}
+#alias {.tk} {use throat kick at $my[target]}
+#alias {.sweep} {use sweep kick at $my[target]}
 #alias {.ck} {use circle kick}
 #alias {.dues} {use word of unbinding}
+#alias {.bh} {invoke body hardening}
+#alias {.ms} {invoke mind strength}
+#alias {.ref} {invoke refresh}

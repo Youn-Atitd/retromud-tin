@@ -1,3 +1,76 @@
+#CLASS alias kill;
+#CLASS alias open;
+
 #ALIAS {.tar} {
     #VARIABLE {my[target]} {%1};
 }{5};
+
+#ACTION {*** NEW ROUND ***} {
+    scan
+} {5};
+
+#ACTION {^You can't go anywhere while sitting down.} {
+    stand
+} {3};
+
+#ACTION {^You are asleep and unable to do that.} {
+    wake
+} {5};
+
+#ALIAS {cp-welstar} {
+    #config speedwalk on;
+    5e44n;
+    #config speedwalk off;
+} {5};
+#ALIAS {welstar-cp} {
+    #config speedwalk on;
+    5w44s;
+    #config speedwalk off;
+} {5};
+
+#ALIAS {to-cp} {
+    #config speedwalk on;
+    49w80s;
+    #config speedwalk off;
+} {5};
+#ALIAS {cp-perdow} {
+    #config speedwalk on;
+    43e4n;
+    #config speedwalk off;
+} {5};
+#ALIAS {perdow-cp} {
+    #config speedwalk on;
+    43w4s;
+    #config speedwalk off;
+} {5};
+#ALIAS {cp-raji} {
+    #config speedwalk on;
+    46e27n;
+    #config speedwalk off;
+} {5};
+#ALIAS {raji-cp} {
+    #config speedwalk on;
+    46w27s;
+    #config speedwalk off;
+} {5};
+#ALIAS {cp-wysoom} {
+    #config speedwalk on;
+    49e76n;
+    #config speedwalk off;
+} {5};
+#ALIAS {wysoom-cp} {
+    #config speedwalk on;
+    49w76s;
+    #config speedwalk off;
+} {5};
+
+
+#ALIAS {.sw-on} {
+    #config speedwalk on;
+} {5};
+#ALIAS {.sw-off} {
+    #config speedwalk off;
+} {5};
+
+
+#CLASS alias close;
