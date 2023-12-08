@@ -10,3 +10,26 @@
 #alias {.bh} {invoke body hardening}
 #alias {.ms} {invoke mind strength}
 #alias {.ref} {invoke refresh}
+#alias {.sis} {invoke summon inner strength}
+#alias {.cb} {invoke chi blast at $my[target]}
+#ALIAS {.unpain} {
+    invoke spirit strength
+} {5};
+
+#ALIAS {.buff} {
+    .unpain;
+    .bh;
+    .ms;
+    .sis;
+} {5};
+#ACTION {You can't rest while flapping.} {
+    flight;
+} {5};
+
+#ALIAS {.med} {
+    #ACTION {You need to be resting to use this skill.} {
+        rest;
+        
+    } {5};
+    use meditation;
+} {5};
