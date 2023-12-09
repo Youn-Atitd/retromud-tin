@@ -37,7 +37,7 @@
         #format {ep_max}	{%+4s} {<128>$my[ep][max]<088>};
         #VARIABLE {PROMPT[line1]} {H:$my[hp][graph] S:$my[sp][graph] E:$my[ep][graph]};
         #VARIABLE {PROMPT[line2]} {HP:$hp/$hp_max SP:$sp/$sp_max EP:$ep/$ep_max};
-        #VARIABLE {PROMPT[line3]} {Target: $my[target]};
+        #VARIABLE {PROMPT[line3]} {Target: $my[target] Skill: $skilluse Spell: $spelluse};
         #SHOWME {$PROMPT[line1]}{3}{$PROMPT[first_column]};
         #SHOWME {$PROMPT[line2]}{4}{$PROMPT[first_column]};
         #SHOWME {$PROMPT[line3]}{5}{$PROMPT[first_column]};
@@ -85,7 +85,7 @@
         #format {ep_max}	{%+4s} {<128>$my[ep][max]<088>};
         #VARIABLE {PROMPT[line1]} {H:$my[hp][graph] S:$my[sp][graph] E:$my[ep][graph]};
         #VARIABLE {PROMPT[line2]} {HP:$hp/$hp_max SP:$sp/$sp_max EP:$ep/$ep_max};
-        #VARIABLE {PROMPT[line3]} {Target: $my[target]};
+        #VARIABLE {PROMPT[line3]} {Target: $my[target] Skill: $skilluse Spell: $spelluse};
         #SHOWME {$PROMPT[line1]}{3}{$PROMPT[first_column]};
         #SHOWME {$PROMPT[line2]}{4}{$PROMPT[first_column]};
         #SHOWME {$PROMPT[line3]}{5}{$PROMPT[first_column]};

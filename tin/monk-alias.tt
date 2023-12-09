@@ -15,7 +15,13 @@
 #ALIAS {.unpain} {
     invoke spirit strength
 } {5};
+#ALIAS {.rebuff} {
+    use ceremony;
+    #DELAY {5} {
+        .buff;
+    }
 
+} {5};
 #ALIAS {.buff} {
     .unpain;
     .bh;

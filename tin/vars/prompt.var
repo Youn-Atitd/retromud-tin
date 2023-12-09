@@ -11,4 +11,7 @@
     {is_enabled}{1}
 };
 
+#var {skilluse}{0};
+#var {spelluse}{0};
+
 #class promptvars close;

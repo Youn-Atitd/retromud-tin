@@ -20,6 +20,24 @@
     wake
 } {5};
 
+#ACTION {^You start concentrating on the skill.} {
+    #VARIABLE {skilluse} {1};
+} {3};
+#ACTION {^You are done using your skill.} {
+    #VARIABLE {skilluse} {0};
+} {3};
+#ACTION {^You stop what your doing.} {
+    #VARIABLE {skilluse} {0};
+    #VARIABLE {spelluse} {0};
+} {3};
+#ACTION {^You are done invoking your magic.} {
+    #VARIABLE {spelluse} {0};
+} {3};
+#ACTION {^You start concentrating on a spell.} {
+    #VARIABLE {spelluse} {1};
+} {3};
+
+
 #ALIAS {cp-welstar} {
     #config speedwalk on;
     5e44n;
