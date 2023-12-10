@@ -6,7 +6,6 @@
     {prompt}{retromud-tin/tin/prompt.tt}
     {alias}{retromud-tin/tin/alias.tt}
     {monk-alias} {retromud-tin/tin/monk-alias.tt}
-    {psionicist-alias} {retromud-tin/tin/psionicist-alias.tt}
     {events}{retromud-tin/tin/events.tt}
 };
 

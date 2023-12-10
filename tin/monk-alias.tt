@@ -3,6 +3,7 @@
 #alias {.gheal} {invoke greater chi heal at me}
 #alias {.stun} {use stun palm at $my[target]}
 #alias {.dm} {use dim mak at $my[target]}
+#ALIAS {.fk} {use flying kick at $my[target]} {5};
 #alias {.tk} {use throat kick at $my[target]}
 #alias {.sweep} {use sweep kick at $my[target]}
 #alias {.ck} {use circle kick}
@@ -12,12 +13,16 @@
 #alias {.ref} {invoke refresh}
 #alias {.sis} {invoke summon inner strength}
 #alias {.cb} {invoke chi blast at $my[target]}
+#ALIAS {.heal} {
+    .$heallevel;
+} {5};
+
 #ALIAS {.unpain} {
     invoke spirit strength
 } {5};
 #ALIAS {.rebuff} {
     use ceremony;
-    #DELAY {5} {
+    #DELAY {6} {
         .buff;
     }
 
@@ -31,7 +36,9 @@
 #ACTION {You can't rest while flapping.} {
     flight;
 } {5};
-
+#ACTION {You fly toward monster, slamming} {
+    .stun;
+} {5};
 #ALIAS {.med} {
     #ACTION {You need to be resting to use this skill.} {
         rest;

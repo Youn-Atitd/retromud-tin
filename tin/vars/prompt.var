@@ -13,5 +13,6 @@
 
 #var {skilluse}{0};
 #var {spelluse}{0};
+#var {heallevel}{};
 
 #class promptvars close;

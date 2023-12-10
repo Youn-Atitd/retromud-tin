@@ -24,7 +24,7 @@
     #var {my[hp][graph]} {@graph{%1;%2}};
     #var {my[sp][graph]} {@graph{%3;%4}};
     #var {my[ep][graph]} {@graph{%5;%6}};
-    #IF {$my[target]==""} {#var {my[target]}{monster}};
+    #var {my[heallevel]} {@setheallevel{%1;%2}};
  
     #if {$PROMPT[is_enabled] == 1}
     {
@@ -72,7 +72,7 @@
     #var {my[hp][graph]} {@graph{%1;%2}};
     #var {my[sp][graph]} {@graph{%3;%4}};
     #var {my[ep][graph]} {@graph{%5;%6}};
-    #IF {$my[target]==""} {#var {my[target]}{monster}};
+    #var {my[heallevel]} {@setheallevel{%1;%2}};
  
     #if {$PROMPT[is_enabled] == 1}
     {
@@ -105,6 +105,19 @@
 
 @PUBSUB_SUBSCRIBE{screen_changed;};
 
+#FUNCTION {setheallevel} {
+    #regex {%1} {%d}{
+        #MATH hlvl {100.0*%1/%2};
+        #format {hlvl} {%d} {$hlvl};
+        #if {$hlvl >80} {#var heallevel {lheal}};
+        #if {$hlvl <80} {#var heallevel {cheal}};
+        #if {$hlvl <50} {#var heallevel {gheal}};
+ 
+
+    };
+    #RETURN $heallevel;
+
+};
 #function {graph}
 {
 	#regex {%1} {%d} {
