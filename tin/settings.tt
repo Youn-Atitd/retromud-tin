@@ -3,8 +3,8 @@
 #EVENT {SESSION CONNECTED} {
     #screen rescale 2000 3000;
     #VARIABLE {my[target]} {monster};
-    wear all GEAR;
-    keep all GEAR;
+    wear all EQ;
+    keep all EQ;
 };
 
 #EVENT {SCREEN RESIZE} {
@@ -29,3 +29,5 @@
 
 
 #class settings close;
+
+

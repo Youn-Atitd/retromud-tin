@@ -46,8 +46,11 @@
     } {5};
     use meditation;
 } {5};
-#ALIAS {.med-full} {
-    #VARIABLE {meditating} {1};
-    
 
+#ALIAS {.medfull} {
+    #CLASS medfull open;
+    #ACTION {^You sit cross-legged} {.med} {5};
+    #ACTION {^You sizzle with magical energy.$} {#class medfull kill; } {5};
+    #CLASS medfull close;
+    .med;
 } {5};
