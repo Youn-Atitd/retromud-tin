@@ -46,3 +46,8 @@
     } {5};
     use meditation;
 } {5};
+#ALIAS {.med-full} {
+    #VARIABLE {meditating} {1};
+    
+
+} {5};
