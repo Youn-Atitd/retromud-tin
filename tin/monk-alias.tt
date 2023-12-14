@@ -1,7 +1,6 @@
 #alias {.lheal} {invoke lesser chi heal at me}
 #alias {.cheal} {invoke chi healing at me}
 #alias {.gheal} {invoke greater chi heal at me}
-#alias {.stun} {use stun palm at $my[target]}
 #alias {.dm} {use dim mak at $my[target]}
 #ALIAS {.fk} {use flying kick at $my[target]} {5};
 #alias {.tk} {use throat kick at $my[target]}
@@ -22,34 +21,41 @@
 } {5};
 #ALIAS {.rebuff} {
     use ceremony;
-    #DELAY {6} {
-        .buff;
-    }
-
+    #CLASS buffing open;
+    #ACTION {^You feeling of strength enters} {.heal;} {5};
+    #ACTION {^You perform a} {.buff} {5};
+    #CLASS buffing close;
 } {5};
+
 #ALIAS {.buff} {
     .unpain;
     .bh;
     .ms;
     .sis;
 } {5};
-#ACTION {You can't rest while flapping.} {
-    flight;
-} {5};
+
+
 #ACTION {You fly toward monster, slamming} {
     .stun;
 } {5};
-#ALIAS {.med} {
-    #ACTION {You need to be resting to use this skill.} {
-        rest;
-        
-    } {5};
-    use meditation;
-} {5};
+
+#alias {.stun} {
+    #CLASS stunpalm open;
+    #ACTION {^Summoning all your inner strength} {use stun palm at $my[target];} {5};
+    #ACTION {^You wouldn't know where to strike this beast} {.heal;} {5};
+    #ACTION {^There are no targets within range.} {#CLASS stunpalm kill;} {5};
+    #CLASS stunpalm close; 
+    use stun palm at $my[target];
+}
+
 
 #ALIAS {.medfull} {
     #CLASS medfull open;
+    #ALIAS {.med} {use meditation;} {5};
+    #ACTION {You can't rest while flapping.} {flight; rest;} {5};
+    #ACTION {You need to be resting to use this skill.} {rest; .med;} {5};
     #ACTION {^You sit cross-legged} {.med} {5};
+    #ACTION {^You fail your attempt.} {.med} {5};
     #ACTION {^You sizzle with magical energy.$} {#class medfull kill; } {5};
     #CLASS medfull close;
     .med;

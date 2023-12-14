@@ -36,7 +36,9 @@
 #ACTION {^You start concentrating on a spell.} {
     #VARIABLE {spelluse} {1};
 } {3};
-
+#ACTION {fall to the floor} {
+    stand;
+} {5};
 
 #ALIAS {cp-welstar} {
     #config speedwalk on;
