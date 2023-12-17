@@ -7,6 +7,7 @@
     {alias}{retromud-tin/tin/alias.tt}
     {monk-alias} {retromud-tin/tin/monk-alias.tt}
     {events}{retromud-tin/tin/events.tt}
+    {mage-alias} {retromud-tin/tin/mage-alias.tt}
 };
 
 #var {DATA}

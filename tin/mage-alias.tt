@@ -1,0 +1,20 @@
+#ALIAS {.aa} {cast acid arrow at $my[target];} {5};
+#ALIAS {.cl} {cast chain lightning;} {5};
+#ALIAS {.cs} {cast cold snap;} {5};
+#ALIAS {.hw} {cast heat wave;} {5};
+#ALIAS {.j} {cast jolt at $my[target];} {5};
+#ALIAS {.mm} {cast magic missile at $my[target];} {5};
+#ALIAS {.pf} {cast purifying fire;} {5};
+#ALIAS {.bb} {cast brightbeam at $my[target];} {5};
+#ALIAS {.ch} {cast choking cloud at $my[target];} {5};
+#ALIAS {.fb} {cast fireball;} {5};
+#ALIAS {.hos} {cast hail of stone;} {5};
+#ALIAS {.lb} {cast lightning bolt at $my[target];} {5};
+#ALIAS {.ma} {cast maillibs malevolent arrow at $my[target];} {5};
+#ALIAS {.mshield} {cast mystic shield at me;} {5};
+#ALIAS {.displace} {cast displacement at me;} {5};
+
+#ALIAS {.mbuff} {
+    .mshield;
+    .displace;
+} {5};
