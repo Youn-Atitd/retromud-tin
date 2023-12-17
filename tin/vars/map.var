@@ -1,0 +1,22 @@
+#class mapvars open;
+
+#var {MAP}
+{
+    {file}{retromud-tin/map/retro.map}
+    {dirty}{0}
+    {first_room}{1}
+    {in_map}{0}
+    {loaded}{0}
+    {mismatch}{0}
+    {center}
+    {
+        {x}{0}
+        {y}{0}
+        {z}{0}
+    }
+    {autosave}{60}
+    {git}{0}
+    {mapping}{0}
+};
+
+#class mapvars close;

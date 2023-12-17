@@ -1,0 +1,49 @@
+#class map_notes open;
+
+#nop Requires screen.tt;
+#var num {120};
+
+#ALIAS {getnotes} {#MAP list {roomnote}{{^\w+.*}}{distance}{$n_y}{variable}{note}}
+
+#ALIAS {loopnotes}
+{
+  #LIST {notes_l} clear;
+  #LIST {notes_l} add {-== Map legend ==-};
+  #FOREACH {*note[%*]} attr #IF
+  {
+    $note[$attr][z] == 0 &&
+    $note[$attr][x] > -$num &&
+    $note[$attr][x] < $num &&
+    $note[$attr][y] > -$num &&
+    $note[$attr][y] < $num
+  }
+  {
+    #MAP GET {roomnote} {notetext} {$attr};
+    #MAP GET {roomsymbol} {notesymbol} {$attr};
+    #FORMAT {notesymbol} {%+6s}{$notesymbol};
+    #CAT {notesymbol} {<fff>: $notetext};
+    #LIST {notes_l} add $notesymbol;
+  };
+  show_legend_info
+}
+
+#ALIAS {show_legend_info}
+{
+  #IF {&notes_l[] > 1}
+  {
+    #DRAW White BOX 3 $SCREEN[map][topcol] 4+&notes_l[] $SCREEN[map][topcol]+35 $notes_l[];
+  }
+}
+
+#EVENT {MAP UPDATED VTMAP}
+{
+    #IF {$MAPNOTES[is_enabled]}
+    {
+        #MATH {n_x} {$SCREEN[cols] / 2 - 3};
+        #MATH {n_y} {$SCREEN[split] / 2};
+        getnotes;
+        loopnotes;
+    };
+}
+
+#class map_notes close;

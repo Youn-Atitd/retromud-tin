@@ -1,0 +1,10 @@
+#class mappingvar open;
+
+#var {MAPPING}
+{
+    {autolink}{0}
+    {automapping}{0}
+};
+
+#class mappingvar close;
+

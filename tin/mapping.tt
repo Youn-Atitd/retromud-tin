@@ -1,0 +1,217 @@
+#class mapping open;
+
+#nop required: mapping.var
+#nop required: prompt.var
+
+#alias {automapping}
+{
+    #local _toggle %1;
+    #switch {"$_toggle"}
+    {
+        #case {"on"}
+        {
+            InfoMessage Enabling Automapping...;
+            #map flag static off;
+            #var {MAP[mapping]} {1};
+            #var {MAPPING[automapping]} {1};
+        };
+        #case {"off"}
+        {
+            WarningMessage Disabling Automapping...;
+            #map flag static on;
+            #var {MAP[mapping]} {0};
+            #var {MAPPING[automapping]} {0};
+            #var {MAPPING[autolink]} {0};
+        };
+        #default
+        {
+            #if {$MAP[mapping] == 0}
+            {
+                InfoMessage Enabling Automapping...;
+                #map flag static off;
+                #var {MAP[mapping]} {1};
+                #var {MAPPING[automapping]} {1};
+            };
+            #else
+            {
+                WarningMessage Disabling Automapping...;
+                #map flag static on;
+                #var {MAP[mapping]} {0};
+                #var {MAPPING[automapping]} {0};
+            };
+        };
+    }
+};
+
+#alias {^fr$}
+{
+    #var {MAP[first_room]} {1};
+    #send look;
+}
+
+#alias {remove room symbols}
+{
+
+    #local _room_vnum {};
+    #local _room_terrain {};
+
+    #loop 1 18665 {_room_vnum}
+    {
+        #map at {$_room_vnum}
+        {
+            #map get {roomsymbol} {_room_terrain};
+
+            #switch {"$_room_terrain"}
+            {
+                #case {"-"} {#map set {roomsymbol}{}};
+                #case {"*"} {#map set {roomsymbol}{}};
+                #case {"h"} {#map set {roomsymbol}{}};
+                #case {"^"} {#map set {roomsymbol}{}};
+                #case {"~"} {#map set {roomsymbol}{}};
+                #case {"c"} {#map set {roomsymbol}{}};
+                #case {"%"} {#map set {roomsymbol}{}};
+            };
+        };
+    };
+}
+
+#alias {set room weight}
+{
+    #local _room_vnum {};
+    #local _room_terrain {};
+    #local _room_name {};
+
+    #loop 1 18665 {_room_vnum}
+    {
+        #map at {$_room_vnum}
+        {
+            #map get {roomterrain} {_room_terrain};
+            #map get {roomname} {_room_name};
+
+            #switch {"$_room_terrain"}
+            {
+                #case {"Floor"} {#map set {roomweight}{1}};
+                #case {"Road"} {#map set {roomweight}{2}};
+                #case {"Field"} {#map set {roomweight}{3}};
+                #case {"Forest"} {#map set {roomweight}{4}};
+                #case {"Hills"} {#map set {roomweight}{5}};
+                #case {"Dense Forest"} {#map set {roomweight}{6}};
+                #case {"Mountains"} {#map set {roomweight}{7}};
+                #case {"Swamp"} {#map set {roomweight}{8}};
+                #case {"Water"} {#map set {roomweight}{9}};
+                #case {"Water Noswim"} {#map set {roomweight}{10}};
+                #case {"Underwater"} {#map set {roomweight}{11}};
+                #case {"Crack"} {#map set {roomweight}{12}};
+            };
+
+            InfoMessage Updating $_room_name with terrain($_room_terrain)...;
+        };
+    };
+};
+
+
+
+#action {%1 (#%2) [ %3 ] }
+{
+    _reset_room_data;
+    #local _roomname %1;
+    #local _roomid %2;
+    #local _roomterrain %3;
+
+
+    #if {$MAP[first_room] == 1}
+    {
+        #map goto {roomid} {$_roomid};
+        #var {MAP[first_room]} {0};
+    };
+
+    #if {$MAPPING[automapping] == 1}
+    {
+        #map set roomname %1;
+        #map set roomid %2;
+        #switch {"%3"}
+        {
+            #case {"Floor"} {#map set {roomweight}{1};#map set roomterrain {Floor};#map set roomsymbol -;#map set roomcolor <fff>};
+            #case {"City"} {#map set {roomweight}{1};#map set roomterrain {Floor};#map set roomsymbol -;#map set roomcolor <fff>};
+            #case {"Field"} {#map set {roomweight}{3};#map set roomterrain {Field};#map set roomsymbol {"};#map set roomcolor <aff>};
+            #case {"Forest"} {#map set {roomweight}{4};#map set roomterrain {Forest};#map set roomsymbol *;#map set roomcolor <aeb>};
+            #case {"Hills"} {#map set {roomweight}{5};#map set roomterrain {Hills};#map set roomsymbol h;#map set roomcolor <ebd>};
+            #case {"Mountain"} {#map set {roomweight}{7};#map set roomterrain {Mountains};#map set roomsymbol ^;#map set roomcolor <eff>};
+            #case {"Water"} {#map set {roomweight}{9};#map set roomterrain {Water};#map set roomsymbol ~;#map set roomcolor <adf>};
+            #case {"Water_noswim"} {#map set {roomweight}{10};#map set roomterrain {Water Noswim};#map set roomsymbol ~;#map set roomcolor <aaf>};
+            #case {"Underwater"} {#map set {roomweight}{11};#map set roomterrain {Underwater};#map set roomsymbol ~;#map set roomcolor <abf>};
+            #case {"Road"} {#map set {roomweight}{2};#map set roomterrain {Road};#map set roomsymbol -;#map set roomcolor <fff>};
+            #case {"Crack"} {#map set {roomweight}{12};#map set roomterrain {Crack};#map set roomsymbol c;#map set roomcolor <caa>};
+            #case {"Dense_forest"} {#map set {roomweight}{6};#map set roomterrain {Dense Forest};#map set roomsymbol *;#map set roomcolor <abb>};
+            #case {"Swamp"} {#map set {roomweight}{8};#map set roomterrain {Swamp};#map set roomsymbol %;#map set roomcolor <daf>};
+            #case {"<NONE>"} {#map set {roomweight}{2};#map set roomterrain {Road};#map set roomsymbol -;#map set roomcolor <fff>};
+        };
+
+        #if {$MAPPING[autolink] == 1} {ex;};
+    };
+};
+
+#alias {autolink}
+{
+    #local _toggle %1;
+
+    #switch {"$_toggle"}
+    {
+        #case {"on"} { #var {MAPPING[autolink]} {1};};
+        #case {"off"} { #var {MAPPING[autolink]} {0};};
+        #default
+        {
+            #if {$MAPPING[autolink] == 0}
+            {
+                InfoMessage Enabling Autolinking Rooms...;
+                #var {MAPPING[autolink]} {1};
+            };
+            #else
+            {
+                WarningMessage Disabling Autolinking Rooms...;
+                #var {MAPPING[autolink]} {0};
+            };
+        };
+    };
+}
+
+#action {^{N|S|E|W|U|D}%w %s- [%s%d]}
+{
+    #local {_direction} {};
+    #local {_roomdata} {};
+    #local {_roomid} {%5};
+
+    #format {_direction} {%l} {%1};
+
+    #map list {roomid} {$_roomid} {variable} {_roomdata};
+
+    #if {&_roomdata[] == 1}
+    {
+        #local _vnum {};
+        #foreach {*_roomdata[%*]} {_vnum}
+        {
+            #map dig {$_direction} {$_vnum};
+            #map link {$_direction} {$_vnum};
+        };
+    };
+
+    #if {&_roomdata[] == 0}
+    {
+        #local _vnum {};
+        #map dig {$_direction} new
+    };
+
+    #if {&_roomdata[] > 1}
+    {
+        #local _vnum {};
+        WarningMessage Duplicate ID ($_roomid) is in the map.;
+        #foreach {*_roomdata[%*]} {_vnum}
+        {
+            #local _duplicateVnum {};
+            #format {_duplicateVnum}{vnum: %+5s}{$_vnum};
+            WarningMessage $_duplicateVnum;
+        };
+    };
+};
+
+#class mapping close;

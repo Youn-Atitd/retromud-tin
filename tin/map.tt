@@ -1,0 +1,415 @@
+#nop {== Mapping configuration}
+#nop required: map.var
+#var {MAP[autosave]}{60};
+
+#TICKER {map_autosave}
+{
+    #IF {$MAP[dirty]}
+    {
+        @_map_save{};
+        #SHOW {<020>Autosaving current map...};
+        #var {MAP[dirty]} {0};
+    };
+}{$MAP[autosave]};
+
+#EVENT {MAP ENTER MAP}
+{
+    #var {MAP[in_map]} {1};
+};
+
+
+
+#EVENT {MAP EXIT MAP}
+{
+    #var {MAP[in_map]} {0};
+};
+
+#EVENT {MAP CREATE ROOM}
+{
+    #var {MAP[dirty]} {1};
+};
+
+#EVENT {MAP DELETE ROOM}
+{
+    #var {MAP[dirty]} {1};
+};
+
+#EVENT {MAP EXIT ROOM}
+{
+    @_map_check_room_id{};
+    #var {TRACK[found]} {0};
+};
+
+#FUNCTION {_map_check_room_id}
+{
+    #var {MAP[mismatch]} {1};
+
+    #if {!MAP[in_map]}
+    {
+        #RETURN {#NOP};
+    };
+
+    #local {_room_id} {};
+    #map get roomid _room_id;
+
+    #local {_duplicates} {};
+    #map list {roomid}{$_room_id}{variable}{_duplicates};
+
+    #if {&_duplicates[] > 1}
+    {
+        #echo {%cDuplicate ID (%s) is in the map.}{yellow}{$_room_id};
+
+        #local {_vnum} {};
+
+        #foreach {*_duplicates[%*]} {_vnum}
+        {
+            #echo {%cvnum: %+5s}{yellow}{$_vnum};
+        };
+    };
+    #RETURN {#NOP};
+};
+
+#ACTION {You cannot go that way.}
+{
+    #if {$MAP[in_map] == 0}
+    {
+        #RETURN {#NOP};
+    };
+
+    #path stop;
+    #if {$PATHS[creating]}
+    {
+        #path delete;
+        #path start;
+    };
+    @_check_bot_stepping{};
+};
+
+#action {Can not go there mounted.}
+{
+    @_map_stop{};
+}
+
+#action {Your mount cannot swim.}
+{
+    @_map_stop{};
+}
+
+#action {%1 blocks your way %2.}
+{
+    @_map_stop{};
+};
+
+#action {No way!  You're fighting for your life!}
+{
+    #if {$bot && $BOT[auto_step]}
+    {
+        _pause;
+        #map get {roomvnum} {BOT[vnum]};
+        #path save forward BOT[path];
+        #path save position BOT[position];
+        #math {BOT[position]} {$BOT[position] -1};
+    };
+    @_map_stop{};
+};
+
+#action {You are too exhausted to move.}
+{
+    @_map_stop{};
+};
+
+#action {There is no ferry here.}
+{
+    @_map_stop{};
+};
+
+#action {Your mount is too exhausted to move.}
+{
+    @_map_stop{};
+}
+
+
+#alias {gmd %1 %2}
+{
+    #map dig %1;
+    md %1 %2;
+};
+
+#alias {md %1 %2}
+{
+    #map exit %1 {command} {_handle_door %1 %2 open;};
+    #map exit %1 {color} {<baa>};
+    #map exitflag %1 avoid;
+    #var {MAP[dirty]} {1};
+};
+
+#alias {mdd %1 %2}
+{
+    #map exit %1 {command} {_handle_door %1 %2 open;};
+    #map exit %1 {color} {<baa>};
+    #var {MAP[dirty]} {1};
+};
+
+#alias {dmg %1 %2}
+{
+    #map dig %1;
+    mg %1 %2;
+}
+
+#alias {mg %1 %2}
+{
+    #map exit %1 {command} {_handle_door %1 %2 knock;};
+    #map exitflag %1 avoid;
+    #var {MAP[dirty]} {1};
+}
+
+#alias {mld %1 %2}
+{
+    #map exit %1 {command} {_handle_door %1 %2 unlock;};
+    #map exitflag %1 avoid;
+    #var {MAP[dirty]} {1};
+}
+
+#alias {mpd %1 %2}
+{
+    #map exit %1 {command} {_handle_door %1 %2 pick;};
+    #map exitflag %1 avoid;
+    #var {MAP[dirty]} {1};
+}
+
+#alias {lb %1 %2}
+{
+    #local _exit_data {};
+
+    #map exit %1 save {_exit_data};
+
+    #if {"$_exit_data[command]" == ""}
+    {
+        #map exit %1 {command}{%1;bot %2;};
+    };
+    #else
+    {
+        #map exit %1 {command}{bot %2;$_exit_data[command]};
+    };
+
+    #var {MAP[dirty]} {1};
+}
+
+#alias {_handle_door %1 %2 %3}
+{
+    #local _direction %1;
+    #local _door %2;
+    #var door {$_door};
+    #local _command %3;
+
+    #if {"$_command" != "open"}
+    {
+        #send {$_command $_door $_direction};
+    };
+
+    #if {"$_command" == "knock"}
+    {
+        #send {$_command $_door};
+    };
+    #else
+    {
+        #send {open $_door $_direction};
+    };
+    #send {$_direction};
+}
+
+#alias {^mark wolf$}
+{
+    #map set roomsymbol {[🐺]};
+    #var {MAP[dirty]} {1};
+}
+
+#alias {set roomnote %1}
+{
+    #map set roomnote {%1};
+    #var {MAP[dirty]} {1};
+}
+
+#alias {^mark key$}
+{
+    #map set roomsymbol { [🗝 \b] };
+    #var {MAP[dirty]} {1};
+}
+
+#alias {^mark smob$}
+{
+    #map set roomsymbol { [💀] };
+    #var {MAP[dirty]} {1};
+}
+
+#alias {^mark guild$}
+{
+    #map set roomsymbol {📜 \b};
+    #var {MAP[dirty]} {1};
+}
+
+#alias {^mark shop$}
+{
+    #map set roomsymbol { [🪙] };
+    #var {MAP[dirty]} {1};
+};
+
+#alias {^mark quest$}
+{
+    #map set roomsymbol { [🗨] };
+    #var {MAP[dirty]} {1};
+};
+
+#alias {^mark inn$}
+{
+    #map set roomsymbol { [🛋]};
+    #var {MAP[dirty]} {1};
+}
+
+#alias {^mark tame$}
+{
+    #map set roomsymbol { [🐆] };
+    #var {MAP[dirty]} {1};
+};
+
+#alias {^mark spider$}
+{
+    #map set roomsymbol { [🕷] };
+    #var {MAP[dirty]} {1};
+};
+
+#alias {^mark sign$}
+{
+    #map set roomsymbol { [🪧 \b] };
+    #var {MAP[dirty]} {1};
+};
+
+#alias {^mark lever$}
+{
+    #map set roomsymbol { [⪚] };
+    #var {MAP[dirty]} {1};
+};
+
+#alias {^mark fountain$}
+{
+    #map set roomsymbol { [⛲]};
+    #var {MAP[dirty]} {1};
+}
+
+#alias {^mark berries}
+{
+    #map set roomsymbol { [🫐]};
+    #var {MAP[dirty]} {1};
+}
+
+#alias {^mark plant}
+{
+    #map set roomsymbol { [🪴 \b]}
+};
+
+#alias {^ma$}
+{
+    #map roomflag avoid;
+    #var {MAP[dirty]} {1};
+};
+
+#FUNCTION {_map_stop}
+{
+    #if {$MAP[in_map] == 0}
+    {
+        #RETURN {#NOP};
+    };
+
+    #map undo;
+    #path stop;
+
+
+    #if {$PATHS[creating]}
+    {
+        #path delete;
+        #path start;
+    };
+    #RETURN {#NOP};
+}
+
+
+#FUNCTION {_map_setup}
+{
+	#IF {!$MAP[loaded]}
+	{
+		#MAP read {$MAP[file]};
+		#MAP return;
+
+		#VARIABLE {MAP[loaded]} {1};
+	};
+
+    #map offset {$SCREEN[map][toprow]} {$SCREEN[map][topcol]} {$SCREEN[map][botrow]} {$SCREEN[map][botcol]};
+
+	#RETURN {#NOP};
+};
+
+
+#FUNCTION {_map_offset}
+{
+	#LOCAL {_x} {%1};
+	#LOCAL {_y} {%2};
+	#LOCAL {_z} {%3};
+
+	#IF {$_x == 0 && $_y == 0 && $_z == 0}
+	{
+
+		#VARIABLE {MAP[center][x]} {0};
+		#VARIABLE {MAP[center][y]} {0};
+		#VARIABLE {MAP[center][z]} {0};
+
+		#MAP center {0} {0} {0};
+
+		#RETURN {#NOP};
+	};
+
+	#MATH {MAP[center][x]} {$MAP[center][x] + $_x};
+	#MATH {MAP[center][y]} {$MAP[center][y] + $_y};
+	#MATH {MAP[center][z]} {$MAP[center][z] + $_z};
+
+	#MAP center {$MAP[center][x]} {$MAP[center][y]} {$MAP[center][z]};
+
+	#RETURN {#NOP};
+};
+
+#EVENT {PRESSED SECURE LINK MAP_MOVE MOUSE BUTTON ONE}
+{
+	%4;
+};
+
+#EVENT {MAP ROOM SHORT-CLICKED MOUSE BUTTON ONE}
+{
+
+	#LOCAL {_vnum} {%4};
+
+	#LOCAL {_current_vnum} {};
+	#MAP get roomvnum {_current_vnum};
+	#IF {$_current_vnum == $_vnum}
+	{
+		#RETURN;
+	};
+
+    #MAP find {$_vnum};
+    #path run {$PATHS[current_speed]};
+};
+
+#FUNCTION {_map_save}
+{
+    #map write {$MAP[file]};
+    #var {MAP[dirty]}{0};
+    #RETURN {#NOP};
+};
+
+#alias {savemap}
+{
+    #show {<020>Saving current map...};
+    #map write {$MAP[file]};
+    #var {MAP[dirty]}{0};
+};
+
+@PUBSUB_SUBSCRIBE{screen_changed;       _map_setup};
+@PUBSUB_SUBSCRIBE{macro_mapoffset;      _map_offset};

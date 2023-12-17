@@ -8,11 +8,15 @@
     {monk-alias} {retromud-tin/tin/monk-alias.tt}
     {events}{retromud-tin/tin/events.tt}
     {mage-alias} {retromud-tin/tin/mage-alias.tt}
+    {mapping} {retromud-tin/tin/mapping.tt}
+    {map_notes}{retromud-tin/tin/mapnotes.tt}
 };
 
 #var {DATA}
 {
     {promptvars}{retromud-tin/tin/vars/prompt.var}
+    {mapvars}{retromud-tin/tin/vars/map.var}
+    {mappingvar}{retromud-tin/tin/vars/mapping.var}
 };
 
 #class filevar close;

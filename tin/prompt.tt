@@ -38,11 +38,14 @@
         #format {ep}		{%+4s} {@colscale{$my[ep][current];$my[ep][max]}};
         #format {ep_max}	{%+4s} {<128>$my[ep][max]<088>};
         #format {alignment} {%s} {@alignmentscale{$my[align]}};
-        #VARIABLE {PROMPT[line0]} {Alignment: $alignment};
+        #format {wielding} {%s} {@wieldstatus{$my[wield]}};
+        #VARIABLE {PROMPT[line0_1]} {Alignment: $alignment};
+        #VARIABLE {PROMPT[line0_2]} {Wielded: $wielding};
         #VARIABLE {PROMPT[line1]} {H:$my[hp][graph] S:$my[sp][graph] E:$my[ep][graph]};
         #VARIABLE {PROMPT[line2]} {HP:$hp/$hp_max SP:$sp/$sp_max EP:$ep/$ep_max};
         #VARIABLE {PROMPT[line3]} {Target: $my[target] Skill: $skilluse Spell: $spelluse};
-        #SHOWME {$PROMPT[line0]}{2}{$PROMPT[first_column]};
+        #SHOWME {$PROMPT[line0_1]}{2}{$PROMPT[first_column]};
+        #SHOWME {$PROMPT[line0_2]}{2}{$PROMPT[second_column]};
         #SHOWME {$PROMPT[line1]}{3}{$PROMPT[first_column]};
         #SHOWME {$PROMPT[line2]}{4}{$PROMPT[first_column]};
         #SHOWME {$PROMPT[line3]}{5}{$PROMPT[first_column]};
@@ -89,11 +92,14 @@
         #format {ep}		{%+4s} {@colscale{$my[ep][current];$my[ep][max]}};
         #format {ep_max}	{%+4s} {<128>$my[ep][max]<088>};
         #format {alignment} {%s} {@alignmentscale{$my[align]}};
-        #VARIABLE {PROMPT[line0]} {Alignment: $alignment};
+        #format {wielding} {%s} {@wieldstatus{$my[wield]}};
+        #SHOWME {$PROMPT[line0_1]}{2}{$PROMPT[first_column]};
+        #SHOWME {$PROMPT[line0_2]}{2}{$PROMPT[second_column]};
         #VARIABLE {PROMPT[line1]} {H:$my[hp][graph] S:$my[sp][graph] E:$my[ep][graph]};
         #VARIABLE {PROMPT[line2]} {HP:$hp/$hp_max SP:$sp/$sp_max EP:$ep/$ep_max};
         #VARIABLE {PROMPT[line3]} {Target: $my[target] Skill: $skilluse Spell: $spelluse};
-        #SHOWME {$PROMPT[line0]}{2}{$PROMPT[first_column]};
+        #SHOWME {$PROMPT[line0_1]}{2}{$PROMPT[first_column]};
+        #SHOWME {$PROMPT[line0_2]}{2}{$PROMPT[second_column]};
         #SHOWME {$PROMPT[line1]}{3}{$PROMPT[first_column]};
         #SHOWME {$PROMPT[line2]}{4}{$PROMPT[first_column]};
         #SHOWME {$PROMPT[line3]}{5}{$PROMPT[first_column]};
@@ -250,7 +256,14 @@
 		#CASE {"Angelic"} {#return <ffb>%1<088>};
      #DEFAULT {#return %1}
     };
-    operation
+};
+
+#FUNCTION {wieldstatus} {
+    #SWITCH {"%1"} {
+     #CASE {"H"} {#RETURN {Held};};
+     #CASE {"W"} {#RETURN {Weapon};};
+     #DEFAULT {#RETURN {None};}
+    };
 };
 
 #class prompt close;
