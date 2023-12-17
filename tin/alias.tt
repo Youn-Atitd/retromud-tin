@@ -19,7 +19,9 @@
 #ACTION {^You are asleep and unable to do that.} {
     wake
 } {5};
-
+#ACTION {knocking you to the ground.} {
+    stand
+} {5};
 #ACTION {^You start concentrating on the skill.} {
     #VARIABLE {skilluse} {1};
 } {3};
