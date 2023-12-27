@@ -42,6 +42,56 @@
     stand;
 } {5};
 
+#ACTION {^%1 is unhurt.} {
+    #ECHO {%1 is 100 health};
+} {5};
+#ACTION {^%1 is bruised.} {
+    #ECHO {%1 is 90-99 health};
+} {5};
+#ACTION {^%1 is badly bruised.} {
+    #ECHO {%1 is 80-89 health};
+} {5};
+#ACTION {^%1 is harmed.} {
+    #ECHO {%1 is 70-79 health};
+} {5};
+#ACTION {^%1 is hurt.} {
+    #ECHO {%1 is 60-69 health};
+} {5};
+#ACTION {^%1 is beaten up.} {
+    #ECHO {%1 is 50-59 health};
+} {5};
+#ACTION {^%1 is injured.} {
+    #ECHO {%1 is 40-49 health};
+} {5};
+#ACTION {^%1 is severely beaten.} {
+    #ECHO {%1 is 30-39 health};
+} {5};
+#ACTION {^%1 is maimed.} {
+    #ECHO {%1 is 20-29 health};
+} {5};
+#ACTION {^%1 is crippled.} {
+    #ECHO {%1 is 10-19 health};
+} {5};
+#ACTION {^%1 is mortally wounded.} {
+    #ECHO {%1 is 1-9 health};
+} {5};
+#ACTION {^%1 is lightly damaged.} {
+    #ECHO {%1 is 80-99 health};
+} {5};
+#ACTION {^%1 is heavily.} {
+    #ECHO {%1 is 60-79 health};
+} {5};
+#ACTION {^%1 is severely.} {
+    #ECHO {%1 is 40-59 health};
+} {5};
+#ACTION {^%1 is critically.} {
+    #ECHO {%1 is 20-39 health};
+} {5};
+#ACTION {^%1 is almost destroyed.} {
+    #ECHO {%1 is 1-19 health};
+} {5};
+
+
 #ALIAS {cp-welstar} {
     #config speedwalk on;
     5e44n;
