@@ -1,0 +1,58 @@
+#CLASS assassin-alias kill;
+#CLASS assassin-alias open;
+
+#ALIAS {.km} {
+    kill $my[target];
+    .if;
+} {5};
+
+
+#ALIAS {.tp} {
+    twist pommel;
+} {5};
+
+#ALIAS {.dues} {
+    use grisly trophy at corpse;
+    #CLASS loothead open;
+    #ACTION {^In one motion, you swing your weapon down} {get all head;get all coin;} {5};
+    #ACTION {^You see little point in trying} {eat corpse;} {5};
+    #class loothead close;
+} {5};
+
+#ALIAS {.if} {
+    use infighting;
+} {5};
+
+#ALIAS {.stab} {
+    use stab at $my[target];
+} {5};
+
+
+#ALIAS {.rem} {
+    use remedy at me;
+} {5};
+
+#ALIAS {.ref} {
+    use innervate;
+} {5};
+
+
+#ALIAS {.remfull} {
+    .rem;
+    #class remedy open;
+    #ACTION {^You remedy some} {.rem;} {5};
+    #ACTION {^You fail in your attempt to remedy} {.rem;} {5};
+    #ACTION {^You are fully healed.} { #CLASS remedy kill;} {5};
+    #ACTION {^%1 isn't in need of a remedy.} { #CLASS remedy kill;} {5};
+    #class remedy close;
+} {5};
+
+
+#MACRO {\e[23~} {wield W2;wield W1;}
+#MACRO {\e[24~} {unwield W2;unwield W1;}
+#MACRO {\eOS} {.dues};
+#MACRO {\eOP} {.if};
+#MACRO {\e[21~} {assassin list;};
+#MACRO {\eOQ} {.stab;};
+
+#CLASS assassin-alias close;

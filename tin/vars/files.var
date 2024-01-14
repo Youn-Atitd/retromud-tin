@@ -5,9 +5,8 @@
     {settings}{retromud-tin/tin/settings.tt}
     {prompt}{retromud-tin/tin/prompt.tt}
     {alias}{retromud-tin/tin/alias.tt}
-    {monk-alias} {retromud-tin/tin/monk-alias.tt}
+    {assassin-alias}{retromud-tin/tin/assassin-alias.tt}
     {events}{retromud-tin/tin/events.tt}
-    {mage-alias} {retromud-tin/tin/mage-alias.tt}
     {mapping} {retromud-tin/tin/mapping.tt}
     {map_notes}{retromud-tin/tin/mapnotes.tt}
 };

@@ -4,9 +4,6 @@
 #ALIAS {.tar} {
     #VARIABLE {my[target]} {%1};
 }{5};
-#ALIAS {.km} {
-    kill $my[target];
-} {5};
 
 #ACTION {*** NEW ROUND ***} {
     scan
