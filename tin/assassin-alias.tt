@@ -27,6 +27,10 @@
     use stab at $my[target];
 } {5};
 
+#ALIAS {.art} {
+    use arterial slash at $my[target];
+} {5};
+
 
 #ALIAS {.rem} {
     use remedy at me;
@@ -36,6 +40,14 @@
     use innervate;
 } {5};
 
+#ALIAS {.ftb} {
+    use fade to black;
+} {5};
+
+#alias {.agi}{use grace under fire;}{5}
+#ALIAS {.unpain} {use killing focus;} {5};
+
+#ALIAS {.buff} {.agi;.unpain;} {5};
 
 #ALIAS {.remfull} {
     .rem;
