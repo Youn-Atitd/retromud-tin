@@ -31,6 +31,9 @@
     use arterial slash at $my[target];
 } {5};
 
+#ALIAS {.bs} {
+    use backstab at $my[target];
+} {5};
 
 #ALIAS {.rem} {
     use remedy at me;
@@ -40,15 +43,22 @@
     use innervate;
 } {5};
 
-#ALIAS {.ftb} {
+#ALIAS {.hide} {
     use fade to black;
 } {5};
 
 #alias {.agi}{use grace under fire;}{5}
 #ALIAS {.unpain} {use killing focus;} {5};
-
-#ALIAS {.buff} {.agi;.unpain;} {5};
-
+#ALIAS {.buff} {
+    .agi;
+    #CLASS buffing open;
+    #ACTION {^You are already affected by a spell that increases your agility} {.unpain; } {5};
+    #ACTION {^You limber up your body} {.unpain;} {5};
+    #ACTION {^You become focused upon your ability to kill.} {#CLASS buffing kill;} {5};
+    #CLASS buffing close;
+} {5};
+#ALIAS {.heal} {invoke cyllyls breath at me;} {5};
+#ALIAS {.fa} {invoke cyllyls freedom at me} {5};
 #ALIAS {.remfull} {
     .rem;
     #class remedy open;
@@ -66,5 +76,6 @@
 #MACRO {\eOP} {.if};
 #MACRO {\e[21~} {assassin list;};
 #MACRO {\eOQ} {.stab;};
+#MACRO {\eOR} {.hide;};
 
 #CLASS assassin-alias close;

@@ -9,6 +9,22 @@
     scan
 } {5};
 
+
+#ALIAS {.medfull} {
+    #CLASS medfull open;
+    #ALIAS {.med} {use meditation;} {5};
+    #ACTION {You can't rest while flapping.} {flight; rest;} {5};
+    #ACTION {You need to be resting to use this skill.} {rest; .med;} {5};
+    #ACTION {^You sit cross-legged} {.med} {5};
+    #ACTION {^You fail your attempt.} {.med} {5};
+    #ACTION {^You sizzle with magical energy.$} {#class medfull kill; } {5};
+    #CLASS medfull close;
+    .med;
+} {5};
+#ACTION {^You slip on the ice and fall.} {
+    stand;
+} {5};
+
 #ACTION {^You can't go anywhere while sitting down.} {
     stand
 } {3};
