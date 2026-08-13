@@ -8,6 +8,7 @@
 
 #READ {retromud-tin/tin/util.tt};
 #READ {retromud-tin/tin/screen.tt};
+#READ {retromud-tin/tin/comms.tt};
 #READ {retromud-tin/tin/settings.tt};
 #READ {retromud-tin/tin/prompt.tt};
 #READ {retromud-tin/tin/alias.tt};

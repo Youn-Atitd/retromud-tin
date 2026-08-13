@@ -3,9 +3,9 @@
 
 #event {SCROLLED MOUSE WHEEL UP}
 {
-    #if {"$SCREEN[size]" == "ultra_wide" && %0 <= $SCREEN[comms][botrow] && %0 >= $SCREEN[comms][toprow] && %1 <= $SCREEN[comms][botcol] && %1 >= $SCREEN[comms][topcol]}
+    #if {$SCREEN[comms][toprow] > 0 && %0 <= $SCREEN[comms][botrow] && %0 >= $SCREEN[comms][toprow] && %1 <= $SCREEN[comms][botcol] && %1 >= $SCREEN[comms][topcol]}
     {
-        comm_window_scroll_up $comm_window[active];
+        comm_window_scroll_up;
         #return;
     };
 
@@ -20,7 +20,7 @@
 
 #event {SCROLLED MOUSE WHEEL DOWN}
 {
-    #if {"$SCREEN[size]" == "ultra_wide" && %0 <= $SCREEN[comms][botrow] && %0 >= $SCREEN[comms][toprow] && %1 <= $SCREEN[comms][botcol] && %1 >= $SCREEN[comms][topcol]}
+    #if {$SCREEN[comms][toprow] > 0 && %0 <= $SCREEN[comms][botrow] && %0 >= $SCREEN[comms][toprow] && %1 <= $SCREEN[comms][botcol] && %1 >= $SCREEN[comms][topcol]}
     {
         comm_window_scroll_down;
         #return;
@@ -49,4 +49,3 @@
     };
 }
 
-#CLASS events close;

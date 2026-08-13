@@ -22,16 +22,6 @@
     #RETURN {#NOP};
 };
 
-#FUNCTION {comm_window_scroll_up}
-{
-    #RETURN {#NOP};
-};
-
-#FUNCTION {comm_window_scroll_down}
-{
-    #RETURN {#NOP};
-};
-
 #ALIAS {bot}
 {
     #SEND {%0};

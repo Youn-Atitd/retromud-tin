@@ -1,0 +1,166 @@
+#class comms kill;
+#class comms open;
+
+#var {COMMS[buffer_size]} {500};
+#var {COMMS[offset]} {0};
+#var {COMMS[visible]} {12};
+
+#FUNCTION {_comms_add_line}
+{
+    #local {_line} {%1};
+
+    #list {COMMS[buffer]} {insert} {-1} {$_line};
+
+    #while {&COMMS[buffer][] > $COMMS[buffer_size]}
+    {
+        #list {COMMS[buffer]} {delete} {1};
+    };
+
+    #if {$COMMS[offset] > 0}
+    {
+        #math {COMMS[offset]} {$COMMS[offset] + 1};
+    };
+
+    @_comms_display{};
+    #return {#nop};
+};
+
+#FUNCTION {_comms_display}
+{
+    #if {$SCREEN[comms][toprow] == 0}
+    {
+        #return {#nop};
+    };
+
+    #screen clear square
+        {$SCREEN[comms][toprow]} {$SCREEN[comms][topcol]}
+        {$SCREEN[comms][botrow]} {$SCREEN[comms][botcol]};
+
+    #local {_lines} {};
+    #math {_lines} {$SCREEN[comms][botrow] - $SCREEN[comms][toprow] + 1};
+    #var {COMMS[visible]} {$_lines};
+
+    #local {_i} {};
+    #loop {1} {$_lines} {_i}
+    {
+        #local {_y} {};
+        #local {_index} {};
+        #math {_y} {$SCREEN[comms][botrow] - $_i + 1};
+        #math {_index} {0 - $COMMS[offset] - $_i};
+        #local {_line} {$COMMS[buffer][$_index]};
+
+        #if {"$_line" != ""}
+        {
+            #line ignore #show {$_line} {$_y} {$SCREEN[comms][topcol]};
+        };
+    };
+
+    #return {#nop};
+};
+
+#FUNCTION {comm_window_scroll_up}
+{
+    #local {_max_offset} {};
+    #math {_max_offset} {&COMMS[buffer][] - $COMMS[visible]};
+    #if {$_max_offset < 0} {#var _max_offset {0};};
+
+    #if {$COMMS[offset] < $_max_offset}
+    {
+        #math {COMMS[offset]} {$COMMS[offset] + 1};
+        @_comms_display{};
+    };
+    #return {#nop};
+};
+
+#FUNCTION {comm_window_scroll_down}
+{
+    #if {$COMMS[offset] > 0}
+    {
+        #math {COMMS[offset]} {$COMMS[offset] - 1};
+        @_comms_display{};
+    };
+    #return {#nop};
+};
+
+#FUNCTION {_comms_format}
+{
+    #local {_style} {%1};
+    #local {_speaker} {%2};
+    #local {_text} {%3};
+    #local {_time} {};
+    #local {_line} {};
+
+    #format {_time} {%c[%c%t%c]}{<aef>}{<eef>}{%H:%M}{<aef>};
+
+    #switch {"$_style"}
+    {
+        #case {tell} {#format {_line} {%s%c %s tells you:%c %s} {$_time} {light green} {$_speaker} {reset} {$_text};};
+        #case {say} {#format {_line} {%s%c %s says:%c %s} {$_time} {light green} {$_speaker} {reset} {$_text};};
+        #case {chat} {#format {_line} {%s%c %s chats:%c %s} {$_time} {light green} {$_speaker} {reset} {$_text};};
+        #case {narrate} {#format {_line} {%s%c %s narrates:%c %s} {$_time} {light yellow} {$_speaker} {reset} {$_text};};
+        #case {you} {#format {_line} {%s%c You %s:%c %s} {$_time} {light yellow} {$_speaker} {reset} {$_text};};
+        #case {tele} {#format {_line} {%s%c <acf>%s<088>} {$_time} {$_text};};
+        #case {channel} {#format {_line} {%s%c <ffa>[%s]<088> %s} {$_time} {$_speaker} {$_text};};
+        #default {#format {_line} {%s%c %s} {$_time} {$_text};};
+    };
+
+    @_comms_add_line{$_line};
+    #return {#nop};
+};
+
+#action {^%1 tells you %2}
+{
+    @_comms_format{tell; %1; %2};
+};
+
+#action {^%1 says %2}
+{
+    @_comms_format{say; %1; %2};
+};
+
+#action {^%1 chats %2}
+{
+    @_comms_format{chat; %1; %2};
+};
+
+#action {^%1 narrates %2}
+{
+    @_comms_format{narrate; %1; %2};
+};
+
+#action {^You tell %1 %2}
+{
+    @_comms_format{you; tell %1; %2};
+};
+
+#action {^You say %1}
+{
+    @_comms_format{you; say; %1};
+};
+
+#action {^You chat %1}
+{
+    @_comms_format{you; chat; %1};
+};
+
+#action {^You narrate %1}
+{
+    @_comms_format{you; narrate; %1};
+};
+
+#action {^%*telepathic contact%*}
+{
+    @_comms_format{tele; ; %0};
+};
+
+#action {^You reply, via telepathic contact:%*}
+{
+    @_comms_format{tele; ; You reply: %*};
+};
+
+#action {^[%1] %2}
+{
+    @_comms_format{channel; %1; %2};
+};
+
+@PUBSUB_SUBSCRIBE{screen_changed; _comms_display};

@@ -1,7 +1,9 @@
 #class screen open;
 
 #var {MAPNOTES[is_enabled]} {1};
-#var {comm_window[active]} {0};
+#var {SCREEN[bottom_rows]} {12};
+#var {SCREEN[top_rows]} {6};
+#var {comm_window[active]} {1};
 #var {bot} {0};
 #var {PATHS[creating]} {0};
 #var {PATHS[current_speed]} {walk};
@@ -16,7 +18,7 @@
     #local _rows {};
     #local _cols {};
 
-    #split 6 6 0 -120 1;
+    #split 6 12 0 -120 1;
 
     #screen get rows _rows;
     #screen get cols _cols;
@@ -30,28 +32,29 @@
     #if {$_cols > 160}
     {
         #var {SCREEN[size]} {ultra_wide};
-        #var {SCREEN[comms][toprow]} {1};
-        #var {SCREEN[comms][botrow]} {$_rows};
-        #var {SCREEN[comms][topcol]} {$_cols - 39};
-        #var {SCREEN[comms][botcol]} {$_cols};
     };
     #else
     {
         #var {SCREEN[size]} {normal};
-        #var {SCREEN[comms][toprow]} {0};
-        #var {SCREEN[comms][botrow]} {0};
-        #var {SCREEN[comms][topcol]} {0};
-        #var {SCREEN[comms][botcol]} {0};
     };
 
+    #var {SCREEN[comms][toprow]} {$_rows - $SCREEN[bottom_rows] + 1};
+    #var {SCREEN[comms][botrow]} {$_rows - 1};
+    #var {SCREEN[comms][topcol]} {1};
+    #var {SCREEN[comms][botcol]} {$_cols};
+    #var {SCREEN[comms][ul][y]} {$SCREEN[comms][toprow]};
+    #var {SCREEN[comms][ul][x]} {$SCREEN[comms][topcol]};
+    #var {SCREEN[comms][lr][y]} {$SCREEN[comms][botrow]};
+    #var {SCREEN[comms][lr][x]} {$SCREEN[comms][botcol]};
+
     #var {SCREEN[buffer][toprow]} {1};
-    #var {SCREEN[buffer][botrow]} {$_rows - 6};
+    #var {SCREEN[buffer][botrow]} {$_rows - $SCREEN[bottom_rows]};
     #var {SCREEN[buffer][topcol]} {1};
     #var {SCREEN[buffer][botcol]} {$_cols};
 
     #var {SCREEN[map][toprow]} {1};
     #var {SCREEN[map][topcol]} {$_cols - 40};
-    #var {SCREEN[map][botrow]} {$_rows - 6};
+    #var {SCREEN[map][botrow]} {$_rows - $SCREEN[bottom_rows]};
     #var {SCREEN[map][botcol]} {$_cols - 1};
 
     @PUBSUB_PUBLISH{screen_changed};
