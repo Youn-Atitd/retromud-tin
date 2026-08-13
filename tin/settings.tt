@@ -4,17 +4,6 @@
     @_screen_update{};
 };
 
-#nop {Run after login when the game prompt appears - not at the login screen}
-#ACTION {^Hp: %d}
-{
-    #IF {$loggedin == 0}
-    {
-        #VAR {loggedin} {1};
-        wear all EQ;
-        keep all EQ;
-    };
-};
-
 #var {AUTO[eat]} {0};
 #var {AUTO[drink]} {0};
 #var {loggedin} {0};

@@ -1,4 +1,4 @@
-#CLASS assassin-alias kill;
+i#CLASS assassin-alias kill;
 #CLASS assassin-alias open;
 
 #ALIAS {.km} {

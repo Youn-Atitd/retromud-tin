@@ -1,13 +1,28 @@
 #class prompt kill;
 #class prompt open;
 
+#nop {Remove legacy login action from settings.tt - only one #action can fire per line}
+#unaction {^Hp: %d};
+
 #highlight {{H:|HP:}}{<fac>};
 #highlight {{S:|SP:}}{<adf>};
 #highlight {{E:|EP:}}{<afa>};
 
-
-#action {^Hp: %d/%d Sp: %d/%d Ep: %d/%d Gold: %d Exp: %d Align: %9 Wielded: %10 >$}
+#FUNCTION {_prompt_login_once}
 {
+    #IF {$loggedin == 0}
+    {
+        #VAR {loggedin} {1};
+        @_screen_update{};
+        wear all EQ;
+        keep all EQ;
+    };
+    #RETURN {#NOP};
+};
+
+#action {^Hp: %d/%d Sp: %d/%d Ep: %d/%d Gold: %d Exp: %d Align: %9 %iwielded: %10 >$}
+{
+    @_prompt_login_once{};
     #local _mana {};
     #local _health {};
     #local _endurance {};
@@ -62,10 +77,11 @@
     {
         #SHOWME {H:$my[hp][graph] S:$my[sp][graph] E:$my[ep][graph]}{0}{1};
     };
-};
+} {1};
 
 #action {^Hp: %d/%d  Sp: %d/%d  Ep: %d/%d$}
 {
+    @_prompt_login_once{};
     #local _mana {};
     #local _health {};
     #local _endurance {};
@@ -115,7 +131,7 @@
     {
         #SHOWME {H:$my[hp][graph] S:$my[sp][graph] E:$my[ep][graph]}{0}{1};
     };
-};
+} {1};
 
 #FUNCTION {setheallevel} {
     #regex {%1} {%d}{

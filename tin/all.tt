@@ -15,3 +15,7 @@
 #READ {retromud-tin/tin/mapping.tt};
 #READ {retromud-tin/tin/map.tt};
 #READ {retromud-tin/tin/mapnotes.tt};
+
+#nop {SESSION CONNECTED may fire before this file finishes loading}
+#screen rescale 2000 3000;
+@_screen_update{};
