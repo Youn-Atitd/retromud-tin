@@ -1,6 +1,5 @@
-i#CLASS assassin-alias kill;
+#CLASS assassin-alias kill;
 #CLASS assassin-alias open;
-
 #ALIAS {.km} {
     kill $my[target];
     .if;
@@ -85,5 +84,3 @@ i#CLASS assassin-alias kill;
 #MACRO {\e[21~} {assassin list;};
 #MACRO {\eOQ} {.stab;};
 #MACRO {\eOR} {.hide;};
-
-#CLASS assassin-alias close;
