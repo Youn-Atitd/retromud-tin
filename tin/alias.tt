@@ -9,16 +9,21 @@
     scan
 } {5};
 
+#ALIAS {.lan} {
+    drop %1;
+    use laniard making at %1;
+} {5};
+
 
 #ALIAS {.medfull} {
+    #CLASS medfull kill;
     #CLASS medfull open;
     #ALIAS {.med} {use meditation;} {5};
     #ACTION {You can't rest while flapping.} {flight; rest;} {5};
     #ACTION {You need to be resting to use this skill.} {rest; .med;} {5};
     #ACTION {^You sit cross-legged} {.med} {5};
     #ACTION {^You fail your attempt.} {.med} {5};
-    #ACTION {^You sizzle with magical energy.$} {#class medfull kill; } {5};
-    #CLASS medfull close;
+    #ACTION {^You sizzle with magical energy.$} {#class medfull kill;} {5};
     .med;
 } {5};
 #ACTION {^You slip on the ice and fall.} {
@@ -41,7 +46,7 @@
 #ACTION {^You are done using your skill.} {
     #VARIABLE {skilluse} {0};
 } {3};
-#ACTION {^You stop what your doing.} {
+#ACTION {^You stop what you're doing.} {
     #VARIABLE {skilluse} {0};
     #VARIABLE {spelluse} {0};
 } {3};

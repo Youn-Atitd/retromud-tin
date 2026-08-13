@@ -2,10 +2,9 @@
 year=$(date +%Y)
 month=$(date +%m)
 
-# Get the current directory.
-cur="$(cd "$(dirname  "${BASH_SOURCE[0]}")" && pwd)"
-cd "${cur}"
-mkdir -p log/$year/$month
+# Scripts expect cwd to be bin/, not retromud-tin/
+bin="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "${bin}"
+mkdir -p retromud-tin/log/$year/$month
 
-# Run tintin++
-tt++ -r main.tt
+tt++ -r retromud-tin/main.tt

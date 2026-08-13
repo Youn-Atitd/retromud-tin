@@ -1,3 +1,6 @@
+#CLASS monk-alias kill;
+#CLASS monk-alias open;
+
 #alias {.lheal} {invoke lesser chi heal at me}
 #alias {.cheal} {invoke chi healing at me}
 #alias {.gheal} {invoke greater chi heal at me}
@@ -20,11 +23,11 @@
     invoke spirit strength
 } {5};
 #ALIAS {.rebuff} {
+    #CLASS buffing kill;
     use ceremony;
     #CLASS buffing open;
-    #ACTION {^You feeling of strength enters} {.heal;} {5};
-    #ACTION {^You perform a} {.buff} {5};
-    #CLASS buffing close;
+    #ACTION {^A feeling of strength enters} {.heal;} {5};
+    #ACTION {^You perform a ceremony} {.buff;} {5};
 } {5};
 
 #ALIAS {.buff} {
@@ -40,12 +43,12 @@
 } {5};
 
 #alias {.stun} {
+    #CLASS stunpalm kill;
     #CLASS stunpalm open;
     #ACTION {^Summoning all your inner strength} {use stun palm at $my[target];} {5};
-    #ACTION {^You wouldn't know where to strike this beast} {.heal;} {5};
+    #ACTION {^You wouldn't know where to strike this beast} {.heal;#CLASS stunpalm kill;} {5};
     #ACTION {^There are no targets within range.} {#CLASS stunpalm kill;} {5};
-    #CLASS stunpalm close; 
     use stun palm at $my[target];
 }
 
-
+#CLASS monk-alias close;

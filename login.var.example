@@ -1,0 +1,3 @@
+#nop {Copy to login.var and set your RetroMUD password.}
+
+#var {loginpass} {your_password_here};

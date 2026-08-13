@@ -1,0 +1,65 @@
+#class screen open;
+
+#var {MAPNOTES[is_enabled]} {1};
+#var {comm_window[active]} {0};
+#var {bot} {0};
+#var {PATHS[creating]} {0};
+#var {PATHS[current_speed]} {walk};
+#var {BOT[auto_step]} {0};
+#var {BOT[vnum]} {0};
+#var {BOT[path]} {};
+#var {BOT[position]} {0};
+#var {TRACK[found]} {0};
+
+#FUNCTION {_screen_update}
+{
+    #local _rows {};
+    #local _cols {};
+
+    #split 6 6 0 -120 1;
+
+    #screen get rows _rows;
+    #screen get cols _cols;
+
+    #if {$_rows == 0} {#var _rows {40};};
+    #if {$_cols == 0} {#var _cols {120};};
+
+    #var {SCREEN[cols]} {$_cols};
+    #var {SCREEN[split]} {$_rows};
+
+    #if {$_cols > 160}
+    {
+        #var {SCREEN[size]} {ultra_wide};
+        #var {SCREEN[comms][toprow]} {1};
+        #var {SCREEN[comms][botrow]} {$_rows};
+        #var {SCREEN[comms][topcol]} {$_cols - 39};
+        #var {SCREEN[comms][botcol]} {$_cols};
+    };
+    #else
+    {
+        #var {SCREEN[size]} {normal};
+        #var {SCREEN[comms][toprow]} {0};
+        #var {SCREEN[comms][botrow]} {0};
+        #var {SCREEN[comms][topcol]} {0};
+        #var {SCREEN[comms][botcol]} {0};
+    };
+
+    #var {SCREEN[buffer][toprow]} {1};
+    #var {SCREEN[buffer][botrow]} {$_rows - 6};
+    #var {SCREEN[buffer][topcol]} {1};
+    #var {SCREEN[buffer][botcol]} {$_cols};
+
+    #var {SCREEN[map][toprow]} {1};
+    #var {SCREEN[map][topcol]} {$_cols - 40};
+    #var {SCREEN[map][botrow]} {$_rows - 6};
+    #var {SCREEN[map][botcol]} {$_cols - 1};
+
+    @PUBSUB_PUBLISH{screen_changed};
+    #RETURN {#NOP};
+};
+
+#EVENT {SCREEN RESIZE}
+{
+    @_screen_update{};
+};
+

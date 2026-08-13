@@ -3,6 +3,11 @@
 #nop required: mapping.var
 #nop required: prompt.var
 
+#FUNCTION {_reset_room_data}
+{
+    #RETURN {#NOP};
+};
+
 #alias {automapping}
 {
     #local _toggle %1;
@@ -38,6 +43,7 @@
                 #map flag static on;
                 #var {MAP[mapping]} {0};
                 #var {MAPPING[automapping]} {0};
+                #var {MAPPING[autolink]} {0};
             };
         };
     }

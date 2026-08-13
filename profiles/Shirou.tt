@@ -1,6 +1,6 @@
-#class {Youn} {open}
+#class {Shirou} {open}
 
-#var {my[food]} {corpse}
+#var {my[food]} {bread}
 
 #nop === Class ability modules (uncomment as configured) ===
 #nop Primary:
@@ -17,4 +17,4 @@
     #VARIABLE {my[target]} {%1};
 } {5};
 
-#class {Youn} {close}
+#class {Shirou} {close}

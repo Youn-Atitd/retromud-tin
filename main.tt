@@ -1,1 +1,22 @@
 #read retromud-tin/tin/all.tt
+
+#nop {Load character profile based on session character name}
+#switch {"$character"}
+{
+    #case {Youn}
+    {
+        #read {retromud-tin/profiles/Youn.tt};
+    };
+    #case {Mektos}
+    {
+        #read {retromud-tin/profiles/Mektos.tt};
+    };
+    #case {Larktin}
+    {
+        #read {retromud-tin/profiles/Larktin.tt};
+    };
+    #case {Shirou}
+    {
+        #read {retromud-tin/profiles/Shirou.tt};
+    };
+};

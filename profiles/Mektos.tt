@@ -1,8 +1,20 @@
-#class Mektos open;
-#var food {bread};
+#class {Mektos} {open}
 
-#ALIAS {tar %1} {
-    #var tar %1;
-};
+#var {my[food]} {bread}
 
-#class Mektos close; 
+#nop === Class ability modules (uncomment as configured) ===
+#nop Primary:
+#read {retromud-tin/tin/assassin-alias.tt}
+#nop Secondary:
+#nop #read {retromud-tin/tin/monk-alias.tt}
+#nop Tertiary:
+#nop #read {retromud-tin/tin/mage-alias.tt}
+#nop #read {retromud-tin/tin/psionicist-alias.tt}
+
+#nop === Character-specific overrides ===
+#ALIAS {tar}
+{
+    #VARIABLE {my[target]} {%1};
+} {5};
+
+#class {Mektos} {close}

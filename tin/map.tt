@@ -1,3 +1,5 @@
+#class map open;
+
 #nop {== Mapping configuration}
 #nop required: map.var
 #var {MAP[autosave]}{60};
@@ -202,18 +204,21 @@
     #var door {$_door};
     #local _command %3;
 
-    #if {"$_command" != "open"}
+    #switch {"$_command"}
     {
-        #send {$_command $_door $_direction};
-    };
-
-    #if {"$_command" == "knock"}
-    {
-        #send {$_command $_door};
-    };
-    #else
-    {
-        #send {open $_door $_direction};
+        #case {"open"}
+        {
+            #send {open $_door $_direction};
+        };
+        #case {"knock"}
+        {
+            #send {knock $_door};
+        };
+        #default
+        {
+            #send {$_command $_door $_direction};
+            #send {open $_door $_direction};
+        };
     };
     #send {$_direction};
 }
@@ -304,7 +309,8 @@
 
 #alias {^mark plant}
 {
-    #map set roomsymbol { [🪴 \b]}
+    #map set roomsymbol { [🪴 \b]};
+    #var {MAP[dirty]} {1};
 };
 
 #alias {^ma$}
@@ -335,15 +341,19 @@
 
 #FUNCTION {_map_setup}
 {
+	#IF {!$MAP[in_map]}
+	{
+		#RETURN {#NOP};
+	};
+
 	#IF {!$MAP[loaded]}
 	{
 		#MAP read {$MAP[file]};
 		#MAP return;
-
 		#VARIABLE {MAP[loaded]} {1};
 	};
 
-    #map offset {$SCREEN[map][toprow]} {$SCREEN[map][topcol]} {$SCREEN[map][botrow]} {$SCREEN[map][botcol]};
+	#map offset {$SCREEN[map][toprow]} {$SCREEN[map][topcol]} {$SCREEN[map][botrow]} {$SCREEN[map][botcol]};
 
 	#RETURN {#NOP};
 };
@@ -354,6 +364,11 @@
 	#LOCAL {_x} {%1};
 	#LOCAL {_y} {%2};
 	#LOCAL {_z} {%3};
+
+	#IF {!$MAP[in_map]}
+	{
+		#RETURN {#NOP};
+	};
 
 	#IF {$_x == 0 && $_y == 0 && $_z == 0}
 	{
@@ -413,3 +428,5 @@
 
 @PUBSUB_SUBSCRIBE{screen_changed;       _map_setup};
 @PUBSUB_SUBSCRIBE{macro_mapoffset;      _map_offset};
+
+#class map close;

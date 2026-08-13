@@ -1,13 +1,15 @@
-#class filevar open;
+#nop {Registry of load paths - loaded explicitly by all.tt}
 
 #var {FILES}
 {
+    {util}{retromud-tin/tin/util.tt}
+    {screen}{retromud-tin/tin/screen.tt}
     {settings}{retromud-tin/tin/settings.tt}
     {prompt}{retromud-tin/tin/prompt.tt}
     {alias}{retromud-tin/tin/alias.tt}
-    {assassin-alias}{retromud-tin/tin/assassin-alias.tt}
     {events}{retromud-tin/tin/events.tt}
-    {mapping} {retromud-tin/tin/mapping.tt}
+    {mapping}{retromud-tin/tin/mapping.tt}
+    {map}{retromud-tin/tin/map.tt}
     {map_notes}{retromud-tin/tin/mapnotes.tt}
 };
 
@@ -17,5 +19,3 @@
     {mapvars}{retromud-tin/tin/vars/map.var}
     {mappingvar}{retromud-tin/tin/vars/mapping.var}
 };
-
-#class filevar close;

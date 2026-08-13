@@ -1,0 +1,45 @@
+#class util open;
+
+#FUNCTION {InfoMessage}
+{
+    #SHOWME {<020>%0<088>};
+    #RETURN {#NOP};
+};
+
+#FUNCTION {WarningMessage}
+{
+    #SHOWME {<110>%0<088>};
+    #RETURN {#NOP};
+};
+
+#FUNCTION {_check_bot_stepping}
+{
+    #RETURN {#NOP};
+};
+
+#FUNCTION {_pause}
+{
+    #RETURN {#NOP};
+};
+
+#FUNCTION {comm_window_scroll_up}
+{
+    #RETURN {#NOP};
+};
+
+#FUNCTION {comm_window_scroll_down}
+{
+    #RETURN {#NOP};
+};
+
+#ALIAS {bot}
+{
+    #SEND {%0};
+};
+
+#ALIAS {ex}
+{
+    #SEND {exits};
+};
+
+#class util close;

@@ -93,8 +93,8 @@
         #format {ep_max}	{%+4s} {<128>$my[ep][max]<088>};
         #format {alignment} {%+4s} {@alignmentscale{$my[align]}};
         #format {wielding} {%s} {@wieldstatus{$my[wield]}};
-        #SHOWME {$PROMPT[line0_1]}{2}{$PROMPT[first_column]};
-        #SHOWME {$PROMPT[line0_2]}{2}{$PROMPT[second_column]};
+        #VARIABLE {PROMPT[line0_1]} {Alignment: $alignment};
+        #VARIABLE {PROMPT[line0_2]} {Wielded: $wielding};
         #VARIABLE {PROMPT[line1]} {H:$my[hp][graph] S:$my[sp][graph] E:$my[ep][graph]};
         #VARIABLE {PROMPT[line2]} {HP:$hp/$hp_max SP:$sp/$sp_max EP:$ep/$ep_max};
         #VARIABLE {PROMPT[line3]} {Target: $my[target] Skill: $skilluse Spell: $spelluse};
@@ -117,16 +117,13 @@
     };
 };
 
-@PUBSUB_SUBSCRIBE{screen_changed;};
-
 #FUNCTION {setheallevel} {
     #regex {%1} {%d}{
         #MATH hlvl {100.0*%1/%2};
         #format {hlvl} {%d} {$hlvl};
-        #if {$hlvl >80} {#var heallevel {lheal}};
-        #if {$hlvl <80} {#var heallevel {cheal}};
-        #if {$hlvl <50} {#var heallevel {gheal}};
- 
+        #if {$hlvl >= 80} {#var heallevel {lheal};};
+        #elseif {$hlvl >= 50} {#var heallevel {cheal};};
+        #else {#var heallevel {gheal};};
 
     };
     #RETURN $heallevel;
@@ -266,4 +263,3 @@
     };
 };
 
-#class prompt close;

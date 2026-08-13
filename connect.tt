@@ -1,0 +1,70 @@
+#nop {Connect to RetroMUD - type: youn | mektos | larktin | shirou}
+
+#READ {retromud-tin/login.var};
+
+#var {loginchar} {};
+#var {loggedin} {0};
+#var {loginpending} {0};
+
+#ALIAS {mektos}
+{
+    #VAR {loginchar} {Mektos};
+    #VAR {character} {Mektos};
+    #VAR {loggedin} {0};
+    #VAR {loginpending} {1};
+    #ZAP {retromud-Mektos};
+    #SESSION {retromud-Mektos} {retromud.org} {3000} {retromud-tin/main.tt};
+};
+
+#ALIAS {youn}
+{
+    #VAR {loginchar} {Youn};
+    #VAR {character} {Youn};
+    #VAR {loggedin} {0};
+    #VAR {loginpending} {1};
+    #ZAP {Retromud-Youn};
+    #SESSION {Retromud-Youn} {retromud.org} {3000} {retromud-tin/main.tt};
+};
+
+#ALIAS {larktin}
+{
+    #VAR {loginchar} {Larktin};
+    #VAR {character} {Larktin};
+    #VAR {loggedin} {0};
+    #VAR {loginpending} {1};
+    #ZAP {retromud-larktin};
+    #SESSION {retromud-larktin} {retromud.org} {3000} {retromud-tin/main.tt};
+};
+
+#ALIAS {shirou}
+{
+    #VAR {loginchar} {Shirou};
+    #VAR {character} {Shirou};
+    #VAR {loggedin} {0};
+    #VAR {loginpending} {1};
+    #ZAP {retromud-shirou};
+    #SESSION {retromud-shirou} {retromud.org} {3000} {retromud-tin/main.tt};
+};
+
+#ACTION {^Enter selection, or name:}
+{
+    #IF {$loginpending == 1 && "$loginchar" != ""} {#SEND {$loginchar};};
+};
+
+#ACTION {^Please enter your password:}
+{
+    #IF {$loginpending == 1 && "$loginpass" != ""}
+    {
+        #SEND {$loginpass};
+        #VAR {loginpending} {0};
+    };
+};
+
+#ACTION {^Password:}
+{
+    #IF {$loginpending == 1 && "$loginpass" != ""}
+    {
+        #SEND {$loginpass};
+        #VAR {loginpending} {0};
+    };
+};
