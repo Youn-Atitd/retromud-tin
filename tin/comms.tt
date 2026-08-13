@@ -87,6 +87,7 @@
     #local {_style} {%1};
     #local {_speaker} {%2};
     #local {_text} {%3};
+    #local {_channel} {%4};
     #local {_time} {};
     #local {_line} {};
 
@@ -99,8 +100,12 @@
         #case {chat} {#format {_line} {%s%c %s chats:%c %s} {$_time} {light green} {$_speaker} {reset} {$_text};};
         #case {narrate} {#format {_line} {%s%c %s narrates:%c %s} {$_time} {light yellow} {$_speaker} {reset} {$_text};};
         #case {you} {#format {_line} {%s%c You %s:%c %s} {$_time} {light yellow} {$_speaker} {reset} {$_text};};
+        #case {you_channel} {#format {_line} {%s%c You <ffa>[%s]<088>: %s} {$_time} {$_channel} {$_text};};
+        #case {you_channel_brace} {#format {_line} {%s%c You <ffa>{%s}<088>: %s} {$_time} {$_channel} {$_text};};
         #case {tele} {#format {_line} {%s%c <acf>%s<088>} {$_time} {$_text};};
-        #case {channel} {#format {_line} {%s%c <ffa>[%s]<088> %s} {$_time} {$_speaker} {$_text};};
+        #case {channel} {#format {_line} {%s%c %s <ffa>[%s]<088>: %s} {$_time} {$_speaker} {$_channel} {$_text};};
+        #case {channel_brace} {#format {_line} {%s%c %s <ffa>{%s}<088>: %s} {$_time} {$_speaker} {$_channel} {$_text};};
+        #case {channel_line} {#format {_line} {%s%c <ffa>[%s]<088> %s} {$_time} {$_speaker} {$_text};};
         #default {#format {_line} {%s%c %s} {$_time} {$_text};};
     };
 
@@ -158,9 +163,31 @@
     @_comms_format{tele; ; You reply: %*};
 };
 
+#nop {RetroMUD channels use either [retro] or {retro} around the channel name}
+
 #action {^[%1] %2}
 {
-    @_comms_format{channel; %1; %2};
+    @_comms_format{channel_line; %1; %2; };
+};
+
+#action {^%1 [%2]: %3}
+{
+    @_comms_format{channel; %1; %2; %3};
+};
+
+#action {^You [%1]: %2}
+{
+    @_comms_format{you_channel; ; %1; %2};
+};
+
+#action {^%w %!{%w%!}: %*}
+{
+    @_comms_format{channel_brace; %1; %2; %3};
+};
+
+#action {^You %!{%w%!}: %*}
+{
+    @_comms_format{you_channel_brace; ; %1; %2};
 };
 
 @PUBSUB_SUBSCRIBE{screen_changed; _comms_display};

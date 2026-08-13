@@ -71,13 +71,6 @@
     #CLASS remedy open;
     #ACTION {^You remedy some} {.rem;} {5};
     #ACTION {^You fail in your attempt to remedy} {.rem;} {5};
-    #ACTION {^You are fully healed.} {#CLASS remedy kill;} {5};
-    #ACTION {^%1 isn't in need of a remedy.} {#CLASS remedy kill;} {5};
-    .rem;
-} {5};
-
-
-#MACRO {\e[23~} {wield W2;wield W1;}
 #MACRO {\e[24~} {unwield W2;unwield W1;}
 #MACRO {\eOS} {.dues};
 #MACRO {\eOP} {.if};
