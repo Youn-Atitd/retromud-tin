@@ -1,0 +1,110 @@
+#CLASS sentinel-alias kill;
+#CLASS sentinel-alias open;
+
+#nop {Sentinel aliases - tuned for Larktin skill list}
+
+#ALIAS {.km}
+{
+    kill $my[target];
+    .if;
+} {5};
+
+#ALIAS {.mt}
+{
+    use melee targeting at $my[target];
+} {5};
+
+#ALIAS {.if}
+{
+    use infighting;
+} {5};
+
+#ALIAS {.tack}
+{
+    use tackle at $my[target];
+} {5};
+
+#ALIAS {.plink}
+{
+    use plink at $my[target];
+} {5};
+
+#ALIAS {.rem}
+{
+    use remedy at me;
+} {5};
+
+#ALIAS {.fa}
+{
+    use first aid at me;
+} {5};
+
+#ALIAS {.res}
+{
+    use rescue at %1;
+} {5};
+
+#ALIAS {.cn}
+{
+    use city navigation;
+} {5};
+
+#ALIAS {.sw}
+{
+    use summon watch;
+} {5};
+
+#ALIAS {.cw}
+{
+    use command watch;
+} {5};
+
+#ALIAS {.df}
+{
+    use douse fire;
+} {5};
+
+#ALIAS {.br}
+{
+    use battering ram at %1;
+} {5};
+
+#ALIAS {.db}
+{
+    use detect burglary;
+} {5};
+
+#ALIAS {.dt}
+{
+    use detect traps;
+} {5};
+
+#ALIAS {.obs}
+{
+    use observation;
+} {5};
+
+#ALIAS {.q}
+{
+    use questioning at $my[target];
+} {5};
+
+#ALIAS {.diag}
+{
+    use diagnostics at $my[target];
+} {5};
+
+#ALIAS {.cf}
+{
+    use check focus;
+} {5};
+
+#ALIAS {.assist}
+{
+    use assist at %1;
+} {5};
+
+#MACRO {\eOQ} {.tack;}
+#MACRO {\eOR} {.cn;}
+#MACRO {\eOS} {.mt;}
+#MACRO {\eOP} {.km;}

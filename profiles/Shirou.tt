@@ -1,10 +1,12 @@
 #class {Shirou} {open}
 
-#var {my[food]} {bread}
+#var {my[food]} {blood}
+#var {my[class][primary]} {fallen}
+#var {my[level][primary]} {13}
 
-#nop === Class ability modules (uncomment as configured) ===
-#nop Primary:
-#nop #read {retromud-tin/tin/assassin-alias.tt}
+#nop === Class ability modules ===
+#nop Primary: Fallen (level 13)
+#read {retromud-tin/tin/fallen-alias.tt}
 #nop Secondary:
 #nop #read {retromud-tin/tin/monk-alias.tt}
 #nop Tertiary:
@@ -16,5 +18,3 @@
 {
     #VARIABLE {my[target]} {%1};
 } {5};
-
-#class {Shirou} {close}

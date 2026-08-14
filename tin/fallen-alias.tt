@@ -1,0 +1,94 @@
+#CLASS fallen-alias kill;
+#CLASS fallen-alias open;
+
+#nop {Primary Fallen aliases - Shirou level 13}
+
+#ALIAS {.km}
+{
+    kill $my[target];
+} {5};
+
+#ALIAS {.ee}
+{
+    invoke evil eye at $my[target];
+} {5};
+
+#ALIAS {.fv}
+{
+    invoke fellview at $my[target];
+} {5};
+
+#ALIAS {.bl}
+{
+    invoke bladelust at me;
+} {5};
+
+#ALIAS {.ins}
+{
+    insert;
+} {5};
+
+#ALIAS {.if}
+{
+    use illfire at corpse;
+} {5};
+
+#ALIAS {.head}
+{
+    use headbutt at $my[target];
+} {5};
+
+#ALIAS {.behead}
+{
+    use beheading at $my[target];
+} {5};
+
+#ALIAS {.poison}
+{
+    use poisoning at $my[target];
+} {5};
+
+#ALIAS {.ip}
+{
+    invoke imbue poison at me;
+} {5};
+
+#ALIAS {.iu}
+{
+    invoke imbue unholy at me;
+} {5};
+
+#ALIAS {.mb}
+{
+    invoke massblade at me;
+} {5};
+
+#ALIAS {.bs}
+{
+    invoke bladesizing at %1;
+} {5};
+
+#ALIAS {.bp}
+{
+    use bladeparry;
+} {5};
+
+#ALIAS {.ta}
+{
+    use tumbling attack at $my[target];
+} {5};
+
+#ALIAS {.smooth}
+{
+    invoke smooth at me;
+} {5};
+
+#ALIAS {.status}
+{
+    blade status;
+} {5};
+
+#MACRO {\eOQ} {.ee;}
+#MACRO {\eOR} {.bl;}
+#MACRO {\eOS} {.ins;}
+#MACRO {\eOP} {.behead;}
