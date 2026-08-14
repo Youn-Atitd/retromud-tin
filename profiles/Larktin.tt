@@ -1,19 +1,11 @@
-#class {Larktin} {open}
-
 #var {my[food]} {bread}
 #var {my[class][primary]} {sentinel}
 
-#nop === Class ability modules ===
-#nop Primary: Sentinel
 #read {retromud-tin/tin/sentinel-alias.tt}
-#nop Secondary:
-#nop #read {retromud-tin/tin/monk-alias.tt}
-#nop Tertiary:
-#nop #read {retromud-tin/tin/mage-alias.tt}
-#nop #read {retromud-tin/tin/psionicist-alias.tt}
 
-#nop === Character-specific overrides ===
 #ALIAS {tar}
 {
     #VARIABLE {my[target]} {%1};
 } {5};
+
+#class sentinel-alias open;

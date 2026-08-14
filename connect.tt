@@ -1,6 +1,7 @@
 #nop {Connect to RetroMUD - type: youn | mektos | larktin | shirou}
 
 #READ {retromud-tin/login.var};
+#READ {retromud-tin/tin/profile.tt};
 
 #var {loginchar} {};
 #var {loggedin} {0};
@@ -8,42 +9,28 @@
 
 #ALIAS {mektos}
 {
-    #VAR {loginchar} {Mektos};
-    #VAR {character} {Mektos};
-    #VAR {loggedin} {0};
-    #VAR {loginpending} {1};
-    #ZAP {retromud-Mektos};
-    #SESSION {retromud-Mektos} {retromud.org} {3000} {retromud-tin/main.tt};
+    @_connect_character{Mektos; retromud-Mektos; retromud-tin/profiles/Mektos.tt};
 };
 
 #ALIAS {youn}
 {
-    #VAR {loginchar} {Youn};
-    #VAR {character} {Youn};
-    #VAR {loggedin} {0};
-    #VAR {loginpending} {1};
-    #ZAP {Retromud-Youn};
-    #SESSION {Retromud-Youn} {retromud.org} {3000} {retromud-tin/main.tt};
+    @_connect_character{Youn; Retromud-Youn; retromud-tin/profiles/Youn.tt};
 };
 
 #ALIAS {larktin}
 {
-    #VAR {loginchar} {Larktin};
-    #VAR {character} {Larktin};
-    #VAR {loggedin} {0};
-    #VAR {loginpending} {1};
-    #ZAP {retromud-larktin};
-    #SESSION {retromud-larktin} {retromud.org} {3000} {retromud-tin/main.tt};
+    @_connect_character{Larktin; retromud-larktin; retromud-tin/profiles/Larktin.tt};
 };
 
 #ALIAS {shirou}
 {
-    #VAR {loginchar} {Shirou};
-    #VAR {character} {Shirou};
-    #VAR {loggedin} {0};
-    #VAR {loginpending} {1};
-    #ZAP {retromud-shirou};
-    #SESSION {retromud-shirou} {retromud.org} {3000} {retromud-tin/main.tt};
+    @_connect_character{Shirou; retromud-shirou; retromud-tin/profiles/Shirou.tt};
+};
+
+#nop {Backup profile load after main.tt finishes on reconnect}
+#EVENT {SESSION CONNECTED}
+{
+    #delay 2 {@_profile_load{};};
 };
 
 #ACTION {^Enter selection, or name:}

@@ -1,0 +1,77 @@
+#class {profile} {open}
+
+#FUNCTION {_profile_reset}
+{
+    #class {assassin-alias} {kill};
+    #class {mage-alias} {kill};
+    #class {fallen-alias} {kill};
+    #class {sentinel-alias} {kill};
+    #class {monk-alias} {kill};
+    #class {psionicist-alias} {kill};
+    #return {#nop};
+};
+
+#FUNCTION {_profile_resolve}
+{
+    #if {"$profilefile" != ""}
+    {
+        #return {$profilefile};
+    };
+
+    #if {"$character" == "Youn"}
+    {
+        #return {retromud-tin/profiles/Youn.tt};
+    };
+    #if {"$character" == "Mektos"}
+    {
+        #return {retromud-tin/profiles/Mektos.tt};
+    };
+    #if {"$character" == "Larktin"}
+    {
+        #return {retromud-tin/profiles/Larktin.tt};
+    };
+    #if {"$character" == "Shirou"}
+    {
+        #return {retromud-tin/profiles/Shirou.tt};
+    };
+
+    #return {};
+};
+
+#FUNCTION {_profile_load}
+{
+    #local {_file} {@_profile_resolve{}};
+
+    #if {"$_file" == ""}
+    {
+        #return {#nop};
+    };
+
+    @_profile_reset{};
+    #read {$_file};
+    #return {#nop};
+};
+
+#FUNCTION {_connect_character}
+{
+    #local {_name} {%1};
+    #local {_session} {%2};
+    #local {_profile} {%3};
+
+    #var {loginchar} {$_name};
+    #var {character} {$_name};
+    #var {profilefile} {$_profile};
+    #var {loggedin} {0};
+    #var {loginpending} {1};
+
+    @_profile_reset{};
+
+    #if {"$_name" != "Mektos"} {#ZAP {retromud-Mektos};};
+    #if {"$_name" != "Youn"} {#ZAP {Retromud-Youn};};
+    #if {"$_name" != "Larktin"} {#ZAP {retromud-larktin};};
+    #if {"$_name" != "Shirou"} {#ZAP {retromud-shirou};};
+    #ZAP {$_session};
+
+    #SESSION {$_session} {retromud.org} {3000} {retromud-tin/main.tt};
+    #return {#nop};
+};

@@ -1,5 +1,6 @@
-#CLASS mage-alias kill;
-#CLASS mage-alias open;
+#nop {Mage aliases}
+
+#class {mage-alias} {open}
 
 #ALIAS {.aa} {cast acid arrow at $my[target];} {5};
 #ALIAS {.cl} {cast chain lightning;} {5};
@@ -17,9 +18,13 @@
 #ALIAS {.mshield} {cast mystic shield at me;} {5};
 #ALIAS {.displace} {cast displacement at me;} {5};
 
-#ALIAS {.mbuff} {
-    .mshield;
-    .displace;
+#ALIAS {.mbuff}
+{
+    cast mystic shield at me;
+    #delay 2 {cast displacement at me;};
 } {5};
 
-#CLASS mage-alias close;
+#MACRO {\eOQ} {.mm;}
+#MACRO {\eOR} {.lb;}
+#MACRO {\eOS} {.fb;}
+#MACRO {\eOP} {.mbuff;}

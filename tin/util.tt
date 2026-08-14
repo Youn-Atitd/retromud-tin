@@ -32,4 +32,3 @@
     #SEND {exits};
 };
 
-#class util close;

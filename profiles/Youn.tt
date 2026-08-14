@@ -1,20 +1,12 @@
-#class {Youn} {open}
-
 #var {my[food]} {corpse}
+#var {my[class][primary]} {mage}
+#var {my[level][primary]} {16}
 
-#nop === Class ability modules (uncomment as configured) ===
-#nop Primary:
-#nop #read {retromud-tin/tin/assassin-alias.tt}
-#nop Secondary:
-#nop #read {retromud-tin/tin/monk-alias.tt}
-#nop Tertiary:
-#nop #read {retromud-tin/tin/mage-alias.tt}
-#nop #read {retromud-tin/tin/psionicist-alias.tt}
+#read {retromud-tin/tin/mage-alias.tt}
 
-#nop === Character-specific overrides ===
+#class {default} {open}
+
 #ALIAS {tar}
 {
     #VARIABLE {my[target]} {%1};
 } {5};
-
-#class {Youn} {close}
